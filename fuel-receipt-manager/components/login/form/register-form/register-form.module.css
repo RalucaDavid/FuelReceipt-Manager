@@ -1,0 +1,21 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.button {
+    background-color: var(--color-primary-accent) !important;
+    margin-top: 5px !important;
+}
+
+.nameContainer {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.lastNameInput, .firstNameInput {
+    width: 100%;
+}

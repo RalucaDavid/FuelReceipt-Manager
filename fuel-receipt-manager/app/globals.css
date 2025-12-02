@@ -10,6 +10,9 @@
     --color-text-secondary: #6c757d;
     
     --color-border: #dee2e6;
+
+    --color-text-white: white;
+    --color-text-black: black;
 }
 
 *, *::before, *::after {
