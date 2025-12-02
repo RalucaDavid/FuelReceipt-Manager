@@ -1,3 +1,5 @@
+import LoginPage from "@/components/login";
+
 export default function Login() {
-  return <div>TEST</div>;
+  return <LoginPage />;
 }
