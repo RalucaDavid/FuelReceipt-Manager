@@ -9,7 +9,6 @@ const RegisterForm = () => {
     initialValues: {
       firstName: "",
       lastName: "",
-      companyName: "",
       email: "",
       password: "",
     },
@@ -17,7 +16,6 @@ const RegisterForm = () => {
     validate: {
       firstName: (value) => (value ? null : Dictionary.firstNameRequired),
       lastName: (value) => (value ? null : Dictionary.lastNameRequired),
-      companyName: (value) => (value ? null : Dictionary.companyNameRequired),
       email: (value) => {
         if (!value) {
           return Dictionary.emailRequired;
@@ -59,13 +57,6 @@ const RegisterForm = () => {
           {...form.getInputProps("lastName")}
         />
       </div>
-      <TextInput
-        withAsterisk
-        label={Dictionary.companyName}
-        placeholder={Dictionary.enterYourCompanyName}
-        key={form.key("companyName")}
-        {...form.getInputProps("companyName")}
-      />
       <TextInput
         withAsterisk
         label={Dictionary.emailAddress}
