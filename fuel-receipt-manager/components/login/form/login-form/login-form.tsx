@@ -1,9 +1,17 @@
 import { useForm } from "@mantine/form";
-import { Button, PasswordInput, TextInput } from "@mantine/core";
+import { Button, PasswordInput, TextInput, Text } from "@mantine/core";
 import classes from "./login-form.module.css";
 import { Dictionary } from "@/dictionaries";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { loginUser } from "@/api/auth";
+import { LoginRequestDTO } from "@/types/auth";
 
 const LoginForm = () => {
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -30,9 +38,25 @@ const LoginForm = () => {
     },
   });
 
+  const handleLogin = async (values: LoginRequestDTO) => {
+    setError(null);
+    setIsLoading(true);
+    try {
+      await loginUser(values);
+      router.refresh();
+      router.push("/dashboard");
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error ? err.message : Dictionary.authenticationFailed
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <form
-      onSubmit={form.onSubmit((values) => console.log(values))}
+      onSubmit={form.onSubmit((values) => handleLogin(values))}
       className={classes.form}
     >
       <TextInput
@@ -41,6 +65,7 @@ const LoginForm = () => {
         placeholder={Dictionary.enterYourEmailAddress}
         key={form.key("email")}
         {...form.getInputProps("email")}
+        disabled={isLoading}
       />
       <PasswordInput
         withAsterisk
@@ -48,10 +73,16 @@ const LoginForm = () => {
         placeholder={Dictionary.enterYourPassword}
         key={form.key("password")}
         {...form.getInputProps("password")}
+        disabled={isLoading}
       />
-      <Button type="submit" className={classes.button}>
+      <Button type="submit" className={classes.button} loading={isLoading}>
         {Dictionary.logIn}
       </Button>
+      {error && (
+        <Text color="red" size="xs" ta="center" mt={4}>
+          {error}
+        </Text>
+      )}
     </form>
   );
 };

@@ -2,6 +2,7 @@ package com.example.fuel.receipt.manager.services.implementations;
 
 import com.example.fuel.receipt.manager.dtos.CreateUserDTO;
 import com.example.fuel.receipt.manager.dtos.LoginRequestDTO;
+import com.example.fuel.receipt.manager.dtos.UserResponseDTO;
 import com.example.fuel.receipt.manager.entities.User;
 import com.example.fuel.receipt.manager.mappers.AuthMapper;
 import com.example.fuel.receipt.manager.repositories.UserRepository;
@@ -53,16 +54,6 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User getUser(final UUID id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> {
-                    logger.error("[USER] : User not found with id {}", id);
-                    return new UsernameNotFoundException("User not found with id: " + id);
-                });
-
-    }
-
-    @Override
     public String login(final LoginRequestDTO loginRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -77,5 +68,15 @@ public class AuthServiceImpl implements AuthService {
             logger.warn("[USER] : Authentication failed for user: {}", loginRequest.email());
             throw new BadCredentialsException("Invalid email or password");
         }
+    }
+
+    @Override
+    public UserResponseDTO getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .map(AuthMapper::toDto)
+                .orElseThrow(() -> {
+                    logger.error("[USER] : User not found with email {}", email);
+                    return new UsernameNotFoundException("User not found with email: " + email);
+                });
     }
 }

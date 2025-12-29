@@ -1,9 +1,17 @@
 import { useForm } from "@mantine/form";
-import classes from "./register-form.module.css";
 import { Dictionary } from "@/dictionaries";
-import { Button, PasswordInput, TextInput } from "@mantine/core";
+import { Button, PasswordInput, TextInput, Text } from "@mantine/core";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import classes from "./register-form.module.css";
+import { CreateUserDTO } from "@/types/auth";
+import { loginUser, registerUser } from "@/api/auth";
 
 const RegisterForm = () => {
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -34,9 +42,29 @@ const RegisterForm = () => {
     },
   });
 
+  const handleRegister = async (values: CreateUserDTO) => {
+    setError(null);
+    setIsLoading(true);
+    try {
+      await registerUser(values);
+      await loginUser({
+        email: values.email,
+        password: values.password,
+      });
+      router.refresh();
+      router.push("/dashboard");
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error ? err.message : Dictionary.authenticationFailed
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <form
-      onSubmit={form.onSubmit((values) => console.log(values))}
+      onSubmit={form.onSubmit((values) => handleRegister(values))}
       className={classes.form}
     >
       <div className={classes.nameContainer}>
@@ -47,6 +75,7 @@ const RegisterForm = () => {
           placeholder={Dictionary.enterYourFirstName}
           key={form.key("firstName")}
           {...form.getInputProps("firstName")}
+          disabled={isLoading}
         />
         <TextInput
           withAsterisk
@@ -55,6 +84,7 @@ const RegisterForm = () => {
           placeholder={Dictionary.enterYourLastName}
           key={form.key("lastName")}
           {...form.getInputProps("lastName")}
+          disabled={isLoading}
         />
       </div>
       <TextInput
@@ -63,6 +93,7 @@ const RegisterForm = () => {
         placeholder={Dictionary.enterYourEmailAddress}
         key={form.key("email")}
         {...form.getInputProps("email")}
+        disabled={isLoading}
       />
       <PasswordInput
         withAsterisk
@@ -70,10 +101,16 @@ const RegisterForm = () => {
         placeholder={Dictionary.enterYourPassword}
         key={form.key("password")}
         {...form.getInputProps("password")}
+        disabled={isLoading}
       />
-      <Button type="submit" className={classes.button}>
+      <Button type="submit" className={classes.button} loading={isLoading}>
         {Dictionary.register}
       </Button>
+      {error && (
+        <Text color="red" size="xs" ta="center" mt={4}>
+          {error}
+        </Text>
+      )}
     </form>
   );
 };

@@ -2,16 +2,15 @@ package com.example.fuel.receipt.manager.controllers;
 
 import com.example.fuel.receipt.manager.dtos.CreateUserDTO;
 import com.example.fuel.receipt.manager.dtos.LoginRequestDTO;
+import com.example.fuel.receipt.manager.dtos.UserResponseDTO;
 import com.example.fuel.receipt.manager.services.interfaces.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("${application.api.path}/auth")
@@ -71,5 +70,14 @@ public class AuthController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponseDTO> getCurrentUser(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).build();
+        }
+        UserResponseDTO user = authService.getUserByEmail(authentication.getName());
+        return ResponseEntity.ok(user);
     }
 }
