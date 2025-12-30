@@ -24,4 +24,7 @@ export const Dictionary = {
   lastNameRequired: "Last name is required.",
   companyNameRequired: "Company name is required.",
   authenticationFailed: "Authentication failed.",
+  dashboard: "Dashboard",
+  receipts: "Receipts",
+  logout: "Logout",
 };

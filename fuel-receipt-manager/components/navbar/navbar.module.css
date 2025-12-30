@@ -1,0 +1,25 @@
+.navbar {
+  display: flex;
+  flex-direction: column;
+}
+
+.logoIcon {
+  background-color: var(--color-primary-accent);
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+}
+
+.logoText {
+  line-height: 1;
+}
+
+.navLinkRoot {
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.mainSection {
+  background-color: var(--color-background-main);
+  min-height: 100vh;
+}

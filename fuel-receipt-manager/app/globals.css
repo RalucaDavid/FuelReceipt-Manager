@@ -13,6 +13,16 @@
 
     --color-text-white: white;
     --color-text-black: black;
+
+    --mantine-color-blue-filled: var(--color-primary-accent);
+    --mantine-color-blue-filled-hover: #0056b3;
+    --mantine-color-blue-6: var(--color-primary-accent);
+    --mantine-color-blue-light: rgba(0, 123, 255, 0.1);
+    
+    --mantine-color-red-6: var(--color-danger);
+    --mantine-color-green-6: var(--color-success);
+
+    --mantine-color-body: var(--color-background-light)
 }
 
 *, *::before, *::after {

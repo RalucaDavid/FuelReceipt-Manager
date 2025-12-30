@@ -1,0 +1,12 @@
+.userSection {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--mantine-spacing-md);
+}
+
+.logoutText {
+  cursor: pointer;
+}
+
+.box {
+    flex: 1;
+}

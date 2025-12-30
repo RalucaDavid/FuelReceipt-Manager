@@ -1,7 +1,7 @@
 import classes from "./dashboard.module.css";
 
 const DashboardPage = () => {
-  return <div>Test</div>;
+  return <div>Dashboard</div>;
 };
 
 export default DashboardPage;
