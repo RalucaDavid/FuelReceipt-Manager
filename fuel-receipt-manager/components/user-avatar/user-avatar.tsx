@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 const UserAvatar = () => {
   const [user, setUser] = useState<UserResponseDTO | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const UserAvatar = () => {
       } catch (error) {
         console.error("Failed to fetch user:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     }
     fetchUser();
@@ -35,7 +35,7 @@ const UserAvatar = () => {
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <Group className={classes.userSection}>
         <Skeleton height={38} circle />

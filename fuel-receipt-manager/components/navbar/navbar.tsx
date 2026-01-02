@@ -1,12 +1,20 @@
-import { AppShell, Box, Group, NavLink, Stack, Text } from "@mantine/core";
+import {
+  AppShell,
+  Box,
+  Group,
+  NavLink,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BsBoxFill } from "react-icons/bs";
 import { IoReceiptSharp } from "react-icons/io5";
 import { MdDashboard } from "react-icons/md";
-import classes from "./navbar.module.css";
 import { Dictionary } from "@/dictionaries";
 import UserAvatar from "../user-avatar";
+import classes from "./navbar.module.css";
 
 interface NavbarProps {
   children: React.ReactNode;
@@ -38,9 +46,9 @@ const Navbar = ({ children }: NavbarProps) => {
             <BsBoxFill color="white" size={24} />
           </Box>
           <Box>
-            <Text size="lg" className={classes.logoText}>
+            <Title size="lg" className={classes.logoText}>
               {Dictionary.fuelReceiptsManager}
-            </Text>
+            </Title>
           </Box>
         </Group>
 

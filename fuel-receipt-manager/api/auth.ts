@@ -1,4 +1,5 @@
-import { CreateUserDTO, LoginRequestDTO, ErrorResponse } from "@/types/auth";
+import { CreateUserDTO, LoginRequestDTO } from "@/types/auth";
+import { ErrorResponse } from "@/types/error";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 

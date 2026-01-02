@@ -1,0 +1,11 @@
+.receiptsPage{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+}
+
+.buttonsContainer{
+    display: flex;
+    justify-content: flex-end;
+}
