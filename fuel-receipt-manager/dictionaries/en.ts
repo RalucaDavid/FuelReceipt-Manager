@@ -46,4 +46,5 @@ export const Dictionary = {
   save: "Save",
   anErrorHadOccurred: "An error has occurred.",
   dateCantBeInFuture: "Date cannot be in the future.",
+  exportCSV: "Export CSV",
 };

@@ -8,6 +8,7 @@ import ReceiptsTable from "./receipts-table";
 import ReceiptsSkeleton from "./receipts-table-skeleton";
 import { useDisclosure } from "@mantine/hooks";
 import ReceiptModal from "../modals/receipt-modal";
+import ExportCSV from "./export-csv";
 
 const ReceiptsPage = () => {
   const [allReceipts, setAllReceipts] = useState<ReceiptResponseDTO[]>([]);
@@ -56,6 +57,7 @@ const ReceiptsPage = () => {
     <div className={classes.receiptsPage}>
       <Title>{Dictionary.receipts}</Title>
       <div className={classes.buttonsContainer}>
+        <ExportCSV receipts={allReceipts} />
         <Button
           className={classes.button}
           loading={isLoading}
