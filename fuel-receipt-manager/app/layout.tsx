@@ -12,7 +12,11 @@ export const metadata = {
   description: "Manage your fuel receipts with ease.",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" {...mantineHtmlProps}>
       <head>

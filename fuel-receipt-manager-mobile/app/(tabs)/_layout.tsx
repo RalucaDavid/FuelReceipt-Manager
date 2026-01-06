@@ -1,35 +1,67 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import UserAvatar from "@/components/ui/user-avatar";
+import { Dictionary } from "@/dictionaries";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        tabBarActiveTintColor: "#228be6",
+        tabBarInactiveTintColor: "gray",
+        headerStyle: {
+          backgroundColor: "#fff",
+        },
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+        headerLeft: () => (
+          <View style={styles.logoContainer}>
+            <View style={styles.logoBox}>
+              <MaterialCommunityIcons name="cube" color="white" size={18} />
+            </View>
+          </View>
+        ),
+        headerRight: () => <UserAvatar />,
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="dashboard"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: Dictionary.dashboard,
+          tabBarLabel: Dictionary.dashboard,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="view-dashboard"
+              size={size}
+              color={color}
+            />
+          ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="receipts"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: Dictionary.receipts,
+          tabBarLabel: Dictionary.receipts,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="receipt" size={size} color={color} />
+          ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  logoContainer: {
+    marginLeft: 15,
+  },
+  logoBox: {
+    backgroundColor: "#228be6",
+    padding: 6,
+    borderRadius: 8,
+  },
+});
