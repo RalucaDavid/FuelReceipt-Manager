@@ -30,7 +30,6 @@ const DashboardPage = () => {
 
   return (
     <div className={classes.dashboardPage}>
-      <Title>{Dictionary.dashboard}</Title>
       <HelloMessage />
       {isLoading ? (
         <Center style={{ paddingTop: 16 }}>
