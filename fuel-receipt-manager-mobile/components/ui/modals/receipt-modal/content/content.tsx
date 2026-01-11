@@ -100,6 +100,7 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
         onChangeText={(v) => handleInputChange("cif", v)}
         error={!!formErrors.cif}
         disabled={isLoading}
+        activeOutlineColor="#228be6"
       />
       <HelperText type="error" visible={!!formErrors.cif}>
         {formErrors.cif}
@@ -135,6 +136,7 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
         onChangeText={(v) => handleInputChange("receiptNumber", v)}
         error={!!formErrors.receiptNumber}
         disabled={isLoading}
+        activeOutlineColor="#228be6"
       />
       <HelperText type="error" visible={!!formErrors.receiptNumber}>
         {formErrors.receiptNumber}
@@ -145,8 +147,22 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
         value={values.fuelType}
         onValueChange={(v) => handleInputChange("fuelType", v)}
         buttons={[
-          { value: "DIESEL", label: "Diesel" },
-          { value: "GASOLINE", label: "Gasoline" },
+          {
+            value: "DIESEL",
+            label: "Diesel",
+            style:
+              values.fuelType === "DIESEL"
+                ? styles.activeTabButton
+                : styles.tabButton,
+          },
+          {
+            value: "GASOLINE",
+            label: "Gasoline",
+            style:
+              values.fuelType === "GASOLINE"
+                ? styles.activeTabButton
+                : styles.tabButton,
+          },
         ]}
       />
 
@@ -157,8 +173,22 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
         value={values.paymentMethod}
         onValueChange={(v) => handleInputChange("paymentMethod", v)}
         buttons={[
-          { value: "CARD", label: "Card" },
-          { value: "CASH", label: "Cash" },
+          {
+            value: "CARD",
+            label: "Card",
+            style:
+              values.paymentMethod === "CARD"
+                ? styles.activeTabButton
+                : styles.tabButton,
+          },
+          {
+            value: "CASH",
+            label: "Cash",
+            style:
+              values.paymentMethod === "CASH"
+                ? styles.activeTabButton
+                : styles.tabButton,
+          },
         ]}
       />
 
@@ -171,6 +201,7 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
         error={!!formErrors.total}
         style={{ marginTop: 15 }}
         right={<TextInput.Affix text="RON" />}
+        activeOutlineColor="#228be6"
       />
       <HelperText type="error" visible={!!formErrors.total}>
         {formErrors.total}
@@ -196,6 +227,10 @@ const styles = StyleSheet.create({
   dateButton: { marginVertical: 5, borderRadius: 4 },
   submitBtn: { marginTop: 20, paddingVertical: 5, backgroundColor: "#228be6" },
   errorText: { color: "red", textAlign: "center", marginTop: 10 },
+  activeTabButton: {
+    backgroundColor: "#e9ecef",
+  },
+  tabButton: {},
 });
 
 export default Content;

@@ -85,6 +85,7 @@ const ReceiptsPage = () => {
 
       <FAB
         icon="plus"
+        color="white"
         style={styles.fab}
         onPress={handleOpenCreate}
         label={Dictionary.addNewReceipt}
@@ -116,6 +117,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: "#228be6",
+    color: "white",
   },
 });
 

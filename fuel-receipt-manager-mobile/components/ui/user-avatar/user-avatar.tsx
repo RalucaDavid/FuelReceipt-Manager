@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   userSection: {
     flexDirection: "row",
     alignItems: "center",
-    paddingRight: 15,
+    paddingLeft: 10,
     gap: 10,
   },
   loadingContainer: {
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   avatarLabel: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#007bff",
   },
   box: {
     justifyContent: "center",

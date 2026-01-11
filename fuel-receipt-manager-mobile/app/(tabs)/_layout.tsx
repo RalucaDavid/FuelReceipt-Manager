@@ -3,7 +3,7 @@ import { Dictionary } from "@/dictionaries";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 
 export default function TabLayout() {
   return (
@@ -14,18 +14,11 @@ export default function TabLayout() {
         headerStyle: {
           backgroundColor: "#fff",
         },
-        headerTitle: Dictionary.fuelReceiptsManager,
+        headerTitle: "",
         headerTitleStyle: {
           fontWeight: "bold",
         },
-        headerLeft: () => (
-          <View style={styles.logoContainer}>
-            <View style={styles.logoBox}>
-              <MaterialCommunityIcons name="cube" color="white" size={18} />
-            </View>
-          </View>
-        ),
-        headerRight: () => <UserAvatar />,
+        headerLeft: () => <UserAvatar />,
       }}
     >
       <Tabs.Screen

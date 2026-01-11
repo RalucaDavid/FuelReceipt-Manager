@@ -19,10 +19,18 @@ const ReceiptsList = ({ receipts, onUpdate, onDelete }: ReceiptsListProps) => {
   const theme = useTheme();
 
   const confirmDelete = (id: string) => {
-    Alert.alert("Ștergere Bon", "Ești sigur că vrei să ștergi acest bon?", [
-      { text: "Anulează", style: "cancel" },
-      { text: "Șterge", style: "destructive", onPress: () => onDelete(id) },
-    ]);
+    Alert.alert(
+      Dictionary.confirmDeletion,
+      Dictionary.areYouSureYouWantToDeleteThisReceipt,
+      [
+        { text: Dictionary.cancel, style: "cancel" },
+        {
+          text: Dictionary.confirm,
+          style: "destructive",
+          onPress: () => onDelete(id),
+        },
+      ]
+    );
   };
 
   const renderItem = ({ item }: { item: ReceiptResponseDTO }) => (

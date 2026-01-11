@@ -48,4 +48,15 @@ export const Dictionary = {
   dateCantBeInFuture: "Date cannot be in the future.",
   exportCSV: "Export CSV",
   thereAreNoReceipts: "There are no receipts.",
+  areYouSureYouWantToDeleteThisReceipt:
+    "Are you sure you want to delete this receipt?",
+  confirmDeletion: "Confirm Deletion",
+  cancel: "Cancel",
+  confirm: "Confirm",
+  hello: "Hello",
+  welcomeToYourDashboard: "Welcome to your dashboard.",
+  goodMorning: "Good Morning",
+  goodAfternoon: "Good Afternoon",
+  goodEvening: "Good Evening",
+  todayIs: "Today is",
 };
