@@ -1,5 +1,3 @@
-"use client";
-
 import { useMemo } from "react";
 import { Center, Text } from "@mantine/core";
 import {

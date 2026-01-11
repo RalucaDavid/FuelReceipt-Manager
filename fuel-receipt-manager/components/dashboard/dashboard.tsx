@@ -39,10 +39,10 @@ const DashboardPage = () => {
       ) : (
         <div className={classes.chartsContainer}>
           <div className={classes.chart}>
-            <ReceiptsChart receipts={allReceipts} />
+            <FuelTypeChart receipts={allReceipts} />
           </div>
           <div className={classes.chart}>
-            <FuelTypeChart receipts={allReceipts} />
+            <ReceiptsChart receipts={allReceipts} />
           </div>
         </div>
       )}
