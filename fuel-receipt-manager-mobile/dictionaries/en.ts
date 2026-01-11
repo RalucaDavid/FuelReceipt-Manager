@@ -59,4 +59,5 @@ export const Dictionary = {
   goodAfternoon: "Good Afternoon",
   goodEvening: "Good Evening",
   todayIs: "Today is",
+  fuelConsumption: "Fuel Consumption",
 };
