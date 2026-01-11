@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { ReceiptResponseDTO } from "@/types/receipts";
 import { Button } from "@mantine/core";
 import { IoMdDownload } from "react-icons/io";
@@ -10,6 +13,12 @@ interface ExportCSVProps {
 }
 
 const ExportCSV = ({ receipts }: ExportCSVProps) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const headers = [
     { label: "Date", key: "date" },
     { label: "CIF", key: "cif" },
@@ -24,6 +33,20 @@ const ExportCSV = ({ receipts }: ExportCSVProps) => {
     date: new Date(r.date).toLocaleDateString("ro-RO"),
     total: r.total.toFixed(2),
   }));
+
+  if (!mounted) {
+    return (
+      <div style={{ textDecoration: "none" }}>
+        <Button
+          variant="outline"
+          leftSection={<IoMdDownload size={16} />}
+          disabled
+        >
+          {Dictionary.exportCSV}
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <CSVLink

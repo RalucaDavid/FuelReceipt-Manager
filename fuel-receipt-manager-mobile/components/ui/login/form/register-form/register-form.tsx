@@ -88,6 +88,7 @@ const RegisterForm = () => {
             onChangeText={(val) => handleInputChange("firstName", val)}
             error={!!errors.firstName}
             disabled={isLoading}
+            activeOutlineColor="#228be6"
           />
           <HelperText type="error" visible={!!errors.firstName}>
             {errors.firstName}
@@ -102,6 +103,7 @@ const RegisterForm = () => {
             onChangeText={(val) => handleInputChange("lastName", val)}
             error={!!errors.lastName}
             disabled={isLoading}
+            activeOutlineColor="#228be6"
           />
           <HelperText type="error" visible={!!errors.lastName}>
             {errors.lastName}
@@ -118,6 +120,7 @@ const RegisterForm = () => {
         disabled={isLoading}
         keyboardType="email-address"
         autoCapitalize="none"
+        activeOutlineColor="#228be6"
       />
       <HelperText type="error" visible={!!errors.email}>
         {errors.email}
@@ -131,6 +134,7 @@ const RegisterForm = () => {
         onChangeText={(val) => handleInputChange("password", val)}
         error={!!errors.password}
         disabled={isLoading}
+        activeOutlineColor="#228be6"
         right={
           <TextInput.Icon
             icon={showPassword ? "eye-off" : "eye"}

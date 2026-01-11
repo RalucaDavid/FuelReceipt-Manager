@@ -24,12 +24,16 @@ const Form = () => {
             {
               value: "Sign In",
               label: Dictionary.logIn,
-              style: styles.tabButton,
+              style:
+                value === "Sign In" ? styles.activeTabButton : styles.tabButton,
             },
             {
               value: "Register",
               label: Dictionary.register,
-              style: styles.tabButton,
+              style:
+                value === "Register"
+                  ? styles.activeTabButton
+                  : styles.tabButton,
             },
           ]}
           style={styles.segmentedControl}
@@ -71,6 +75,9 @@ const styles = StyleSheet.create({
   segmentedControl: {
     marginBottom: 20,
     width: "100%",
+  },
+  activeTabButton: {
+    backgroundColor: "#e9ecef",
   },
   tabButton: {},
   panel: {

@@ -86,11 +86,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   avatar: {
-    backgroundColor: "#228be6",
+    backgroundColor: "#6fb4f0",
   },
   avatarLabel: {
     fontSize: 14,
     fontWeight: "bold",
+    color: "#fff",
   },
   box: {
     justifyContent: "center",
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   logoutText: {
-    color: "#fa5252",
+    color: "#b9b9b9",
     fontWeight: "500",
   },
 });

@@ -14,6 +14,7 @@ export default function TabLayout() {
         headerStyle: {
           backgroundColor: "#fff",
         },
+        headerTitle: Dictionary.fuelReceiptsManager,
         headerTitleStyle: {
           fontWeight: "bold",
         },
@@ -30,7 +31,6 @@ export default function TabLayout() {
       <Tabs.Screen
         name="dashboard"
         options={{
-          title: Dictionary.dashboard,
           tabBarLabel: Dictionary.dashboard,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
@@ -44,7 +44,6 @@ export default function TabLayout() {
       <Tabs.Screen
         name="receipts"
         options={{
-          title: Dictionary.receipts,
           tabBarLabel: Dictionary.receipts,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="receipt" size={size} color={color} />

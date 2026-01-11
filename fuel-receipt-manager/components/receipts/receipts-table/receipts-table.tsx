@@ -1,10 +1,13 @@
 import { FaRegCreditCard, FaTrash } from "react-icons/fa";
+import { useState } from "react";
 import { Table, Badge, Text, Group, ActionIcon, Paper } from "@mantine/core";
 import { MdEdit } from "react-icons/md";
 import { IoIosCash } from "react-icons/io";
 import { ReceiptResponseDTO } from "@/types/receipts";
 import { Dictionary } from "@/dictionaries";
 import classes from "./receipts-table.module.css";
+import VerificationModal from "@/components/modals/verification-modal";
+import { useDisclosure } from "@mantine/hooks";
 
 interface ReceiptsTableProps {
   receipts: ReceiptResponseDTO[];
@@ -17,6 +20,27 @@ const ReceiptsTable = ({
   onUpdate,
   onDelete,
 }: ReceiptsTableProps) => {
+  const [opened, { open, close }] = useDisclosure(false);
+  const [selectedReceiptId, setSelectedReceiptId] = useState<string | null>(
+    null
+  );
+
+  const handleDelete = (id: string) => {
+    onDelete(id);
+    setSelectedReceiptId(null);
+    close();
+  };
+
+  const handleOpenDelete = (id: string) => {
+    setSelectedReceiptId(id);
+    open();
+  };
+
+  const handleClose = () => {
+    setSelectedReceiptId(null);
+    close();
+  };
+
   const rows = receipts.map((receipt) => (
     <Table.Tr key={receipt.id}>
       <Table.Td>
@@ -71,7 +95,7 @@ const ReceiptsTable = ({
           <ActionIcon
             variant="subtle"
             color="red"
-            onClick={() => onDelete(receipt.id)}
+            onClick={() => handleOpenDelete(receipt.id)}
           >
             <FaTrash size={16} />
           </ActionIcon>
@@ -96,6 +120,18 @@ const ReceiptsTable = ({
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
+      <VerificationModal
+        opened={opened}
+        onClose={handleClose}
+        title={Dictionary.confirmDeletion}
+        onConfirm={() => {
+          if (selectedReceiptId) {
+            handleDelete(selectedReceiptId);
+          }
+        }}
+      >
+        <Text size="sm">{Dictionary.areYouSureYouWantToDeleteThisReceipt}</Text>
+      </VerificationModal>
     </Paper>
   );
 };

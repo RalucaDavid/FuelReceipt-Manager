@@ -113,7 +113,7 @@ const ReceiptsList = ({ receipts, onUpdate, onDelete }: ReceiptsListProps) => {
       keyExtractor={(item) => item.id}
       contentContainerStyle={styles.listContainer}
       ListEmptyComponent={
-        <Text style={styles.emptyText}>Nu există bonuri înregistrate.</Text>
+        <Text style={styles.emptyText}>{Dictionary.thereAreNoReceipts}</Text>
       }
     />
   );

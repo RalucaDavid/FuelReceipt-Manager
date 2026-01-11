@@ -1,4 +1,4 @@
-import { Button, Title } from "@mantine/core";
+import { Button, Title, Text } from "@mantine/core";
 import { Dictionary } from "@/dictionaries";
 import classes from "./receipts.module.css";
 import { useEffect, useState } from "react";
@@ -68,6 +68,8 @@ const ReceiptsPage = () => {
       </div>
       {isLoading ? (
         <ReceiptsSkeleton />
+      ) : allReceipts.length === 0 ? (
+        <Text>{Dictionary.thereAreNoReceipts}</Text>
       ) : (
         <ReceiptsTable
           receipts={allReceipts}
