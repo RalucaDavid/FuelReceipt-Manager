@@ -102,7 +102,7 @@ npx expo start -c
   * **Troubleshooting:** If you see an error about missing `ANDROID_HOME`:
     1.  Stop the server (Ctrl + C).
     2.  Run the following command in your terminal (PowerShell) to set the environment variable:
-            ```bash
+            ```
             $env:ANDROID_HOME = "C:\Users\YOUR_USERNAME\AppData\Local\Android\Sdk"
             ```
             *(Note: Replace `YOUR_USERNAME` with your actual Windows user, or adjust the path to your SDK location).*
