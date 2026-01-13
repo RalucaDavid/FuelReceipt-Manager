@@ -108,3 +108,10 @@ npx expo start -c
             *(Note: Replace `YOUR_USERNAME` with your actual Windows user, or adjust the path to your SDK location).*
     3.  Start the server again: `npx expo start -c`
     4.  Press **`a`** again.
+
+## 📸 Photos
+<img width="1875" height="958" alt="image" src="https://github.com/user-attachments/assets/9f556ec6-31d7-45af-a5a8-74d607623321" />
+<img width="383" height="858" alt="image" src="https://github.com/user-attachments/assets/f19330cf-f2e3-407f-ad35-06568243fe2f" />
+<img width="383" height="858" alt="image" src="https://github.com/user-attachments/assets/36fbfb8a-7a28-4e75-aca2-d9aa90f181ad" />
+
+
