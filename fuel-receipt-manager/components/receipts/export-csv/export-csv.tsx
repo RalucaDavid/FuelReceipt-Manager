@@ -9,16 +9,10 @@ import classes from "./export-csv.module.css";
 import { Dictionary } from "@/dictionaries";
 
 interface ExportCSVProps {
-  receipts: ReceiptResponseDTO[];
+  receipts: ReceiptResponseDTO[] | undefined;
 }
 
 const ExportCSV = ({ receipts }: ExportCSVProps) => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const headers = [
     { label: "Date", key: "date" },
     { label: "CIF", key: "cif" },
@@ -28,13 +22,13 @@ const ExportCSV = ({ receipts }: ExportCSVProps) => {
     { label: "Total (RON)", key: "total" },
   ];
 
-  const csvData = receipts.map((r) => ({
+  const csvData = receipts?.map((r) => ({
     ...r,
     date: new Date(r.date).toLocaleDateString("ro-RO"),
     total: r.total.toFixed(2),
   }));
 
-  if (!mounted) {
+  if (!receipts) {
     return (
       <div style={{ textDecoration: "none" }}>
         <Button

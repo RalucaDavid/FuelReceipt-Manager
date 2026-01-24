@@ -1,13 +1,10 @@
-import { UserResponseDTO } from "@/types/auth";
 import { Text, Skeleton, Title, Stack, Box } from "@mantine/core";
 import classes from "./hello-message.module.css";
-import { useEffect, useState } from "react";
-import { getCurrentUser } from "@/api/auth";
 import { Dictionary } from "@/dictionaries";
+import useUser from "@/hooks/useUser";
 
 const HelloMessage = () => {
-  const [user, setUser] = useState<UserResponseDTO | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { user, isLoading } = useUser();
 
   const getCurrentDate = () => {
     return new Date().toLocaleDateString("en-GB", {
@@ -23,20 +20,6 @@ const HelloMessage = () => {
     if (hour < 18) return Dictionary.goodAfternoon;
     return Dictionary.goodEvening;
   };
-
-  useEffect(() => {
-    async function fetchUser() {
-      try {
-        const userData = await getCurrentUser();
-        setUser(userData);
-      } catch (error) {
-        console.error("Failed to fetch user:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchUser();
-  }, []);
 
   if (isLoading) {
     return (

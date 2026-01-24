@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import classes from "./register-form.module.css";
 import { CreateUserDTO } from "@/types/auth";
-import { loginUser, registerUser } from "@/api/auth";
+import { getCurrentUserURL, loginUser, registerUser } from "@/api/auth";
+import { mutate } from "swr";
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -51,11 +52,11 @@ const RegisterForm = () => {
         email: values.email,
         password: values.password,
       });
-      router.refresh();
+      await mutate(getCurrentUserURL());
       router.push("/dashboard");
     } catch (err: unknown) {
       setError(
-        err instanceof Error ? err.message : Dictionary.authenticationFailed
+        err instanceof Error ? err.message : Dictionary.authenticationFailed,
       );
     } finally {
       setIsLoading(false);

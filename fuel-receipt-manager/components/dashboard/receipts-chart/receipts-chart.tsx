@@ -23,7 +23,7 @@ const monthKey = (d: string) => {
 export default function ReceiptsChart({ receipts }: Props) {
   const data = useMemo(() => {
     const map = new Map<string, number>();
-    receipts.forEach((r) => {
+    receipts?.forEach((r) => {
       const k = monthKey(r.date);
       map.set(k, (map.get(k) || 0) + r.total);
     });

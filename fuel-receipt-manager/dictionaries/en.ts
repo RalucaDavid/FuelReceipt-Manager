@@ -59,4 +59,10 @@ export const Dictionary = {
   goodAfternoon: "Good Afternoon",
   goodEvening: "Good Evening",
   todayIs: "Today is",
+  success: "Success",
+  theReceiptHasBeenDeleted: "The receipt has been deleted.",
+  error: "Error",
+  theReceiptCouldNotBeDeleted: "The receipt could not be deleted.",
+  theReceiptHasBeenUpdated: "The receipt has been updated.",
+  theReceiptHasBeenAdded: "The receipt has been added.",
 };

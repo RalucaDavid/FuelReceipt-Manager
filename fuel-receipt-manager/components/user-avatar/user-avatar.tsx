@@ -1,41 +1,25 @@
 import { Avatar, Box, Group, Skeleton, Text } from "@mantine/core";
 import classes from "./user-avatar.module.css";
 import { Dictionary } from "@/dictionaries";
-import { getCurrentUser, logoutUser } from "@/api/auth";
-import { useEffect, useState } from "react";
-import { UserResponseDTO } from "@/types/auth";
+import { logoutUser } from "@/api/auth";
 import { useRouter } from "next/navigation";
+import useUser from "@/hooks/useUser";
 
 const UserAvatar = () => {
-  const [user, setUser] = useState<UserResponseDTO | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { user, isLoading, mutate } = useUser();
   const router = useRouter();
-
-  useEffect(() => {
-    async function fetchUser() {
-      try {
-        const userData = await getCurrentUser();
-        setUser(userData);
-      } catch (error) {
-        console.error("Failed to fetch user:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchUser();
-  }, []);
 
   const handleLogout = async () => {
     try {
       await logoutUser();
+      mutate(null, false);
       router.push("/login");
-      router.refresh();
     } catch (error) {
       console.error("Logout failed:", error);
     }
   };
 
-  if (isLoading) {
+  if (isLoading || !user) {
     return (
       <Group className={classes.userSection}>
         <Skeleton height={38} circle />

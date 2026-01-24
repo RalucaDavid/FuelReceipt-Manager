@@ -10,7 +10,7 @@ import VerificationModal from "@/components/modals/verification-modal";
 import { useDisclosure } from "@mantine/hooks";
 
 interface ReceiptsTableProps {
-  receipts: ReceiptResponseDTO[];
+  receipts: ReceiptResponseDTO[] | undefined;
   onUpdate: (receipt: ReceiptResponseDTO) => void;
   onDelete: (receiptId: string) => void;
 }
@@ -22,7 +22,7 @@ const ReceiptsTable = ({
 }: ReceiptsTableProps) => {
   const [opened, { open, close }] = useDisclosure(false);
   const [selectedReceiptId, setSelectedReceiptId] = useState<string | null>(
-    null
+    null,
   );
 
   const handleDelete = (id: string) => {
@@ -41,7 +41,7 @@ const ReceiptsTable = ({
     close();
   };
 
-  const rows = receipts.map((receipt) => (
+  const rows = receipts?.map((receipt) => (
     <Table.Tr key={receipt.id}>
       <Table.Td>
         <Text size="sm">{receipt.cif}</Text>

@@ -27,7 +27,7 @@ const COLORS = [
 export default function FuelTypeChart({ receipts }: Props) {
   const data = useMemo(() => {
     const map = new Map<string, number>();
-    receipts.forEach((r) => {
+    receipts?.forEach((r) => {
       const key = (r.fuelType || "Unknown").toString();
       map.set(key, (map.get(key) || 0) + (Number(r.total) || 0));
     });

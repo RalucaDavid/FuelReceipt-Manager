@@ -1,11 +1,13 @@
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
+import "@mantine/notifications/styles.css";
 import {
   ColorSchemeScript,
   MantineProvider,
   mantineHtmlProps,
 } from "@mantine/core";
 import "./globals.css";
+import { Notifications } from "@mantine/notifications";
 
 export const metadata = {
   title: "Fuel Receipts Manager",
@@ -23,7 +25,10 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>{children}</MantineProvider>
+        <MantineProvider>
+          <Notifications position="top-center" zIndex={2000} />
+          {children}
+        </MantineProvider>
       </body>
     </html>
   );

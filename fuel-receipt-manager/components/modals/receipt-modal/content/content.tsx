@@ -15,6 +15,7 @@ import { ReceiptRequestDTO, ReceiptResponseDTO } from "@/types/receipts";
 import dayjs from "dayjs";
 import { createReceipt, updateReceipt } from "@/api/receipts";
 import classes from "./content.module.css";
+import { notifications } from "@mantine/notifications";
 
 interface ContentProps {
   receipt?: ReceiptResponseDTO;
@@ -62,16 +63,38 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
     try {
       if (receipt) {
         await updateReceipt(receipt.id, payload);
+        notifications.show({
+          title: Dictionary.success,
+          message: Dictionary.theReceiptHasBeenUpdated,
+          color: "green",
+          autoClose: 4000,
+          withBorder: true,
+        });
       } else {
         await createReceipt(payload);
+        notifications.show({
+          title: Dictionary.success,
+          message: Dictionary.theReceiptHasBeenAdded,
+          color: "green",
+          autoClose: 4000,
+          withBorder: true,
+        });
       }
       onSuccess();
+
       onClose();
       form.reset();
     } catch (err: unknown) {
       setError(
-        err instanceof Error ? err.message : Dictionary.anErrorHadOccurred
+        err instanceof Error ? err.message : Dictionary.anErrorHadOccurred,
       );
+      notifications.show({
+        title: Dictionary.error,
+        message: Dictionary.anErrorHadOccurred,
+        color: "red",
+        autoClose: 3000,
+        withBorder: true,
+      });
     } finally {
       setIsLoading(false);
     }

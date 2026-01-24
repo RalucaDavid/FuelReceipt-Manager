@@ -4,8 +4,9 @@ import classes from "./login-form.module.css";
 import { Dictionary } from "@/dictionaries";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { loginUser } from "@/api/auth";
+import { getCurrentUserURL, loginUser } from "@/api/auth";
 import { LoginRequestDTO } from "@/types/auth";
+import { mutate } from "swr";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -43,11 +44,11 @@ const LoginForm = () => {
     setIsLoading(true);
     try {
       await loginUser(values);
-      router.refresh();
+      await mutate(getCurrentUserURL());
       router.push("/dashboard");
     } catch (err: unknown) {
       setError(
-        err instanceof Error ? err.message : Dictionary.authenticationFailed
+        err instanceof Error ? err.message : Dictionary.authenticationFailed,
       );
     } finally {
       setIsLoading(false);

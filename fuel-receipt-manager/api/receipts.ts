@@ -3,20 +3,7 @@ import { ErrorResponse } from "@/types/error";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function getAllReceipts(): Promise<ReceiptResponseDTO[]> {
-  const response = await fetch(`${BASE_URL}/receipts/get-all`, {
-    method: "GET",
-    credentials: "include",
-  });
-
-  if (!response.ok) {
-    const errorData: ErrorResponse = await response
-      .json()
-      .catch(() => ({ message: "Failed to fetch receipts" }));
-    throw new Error(errorData.message);
-  }
-  return response.json();
-}
+export const getAllReceiptsURL = () => `${BASE_URL}/receipts/get-all`;
 
 export async function getReceiptById(id: string): Promise<ReceiptResponseDTO> {
   const response = await fetch(`${BASE_URL}/receipts/get/${id}`, {
@@ -51,7 +38,7 @@ export async function createReceipt(data: ReceiptRequestDTO): Promise<void> {
 
 export async function updateReceipt(
   id: string,
-  data: ReceiptRequestDTO
+  data: ReceiptRequestDTO,
 ): Promise<void> {
   const response = await fetch(`${BASE_URL}/receipts/update/${id}`, {
     method: "PUT",
