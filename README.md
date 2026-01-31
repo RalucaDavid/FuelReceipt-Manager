@@ -110,8 +110,12 @@ npx expo start -c
     4.  Press **`a`** again.
 
 ## 📸 Photos
-<img width="1875" height="958" alt="image" src="https://github.com/user-attachments/assets/9f556ec6-31d7-45af-a5a8-74d607623321" />
-<img width="383" height="858" alt="image" src="https://github.com/user-attachments/assets/f19330cf-f2e3-407f-ad35-06568243fe2f" />
-<img width="383" height="858" alt="image" src="https://github.com/user-attachments/assets/36fbfb8a-7a28-4e75-aca2-d9aa90f181ad" />
+<img width="1630" height="833" alt="image" src="https://github.com/user-attachments/assets/f0761311-bfe2-4b08-95ea-bfdd334c6006" />
+<img width="1630" height="833" alt="image" src="https://github.com/user-attachments/assets/0412345a-e8e4-4bf2-b129-89c5aa8d9a6a" />
+<img width="375" height="834" alt="image" src="https://github.com/user-attachments/assets/74b0f3d2-a190-4255-8142-0a2fc2e982d3" />
+<img width="375" height="834" alt="image" src="https://github.com/user-attachments/assets/8938fe26-cdac-46c3-bf88-50152a6d6e24" />
+
+
+
 
 
