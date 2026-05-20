@@ -11,7 +11,7 @@ const useReceipts = () => {
 
   return {
     allReceipts: data,
-    isLoading: isLoading || !data,
+    isLoading,
     isError: error,
     mutate,
   };

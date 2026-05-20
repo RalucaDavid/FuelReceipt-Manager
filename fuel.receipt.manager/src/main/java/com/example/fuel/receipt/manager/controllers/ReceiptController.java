@@ -32,6 +32,11 @@ public class ReceiptController {
         return ResponseEntity.ok(receiptService.getAllMyReceipts());
     }
 
+    @GetMapping("/get-all-by-month")
+    public ResponseEntity<List<ReceiptResponseDTO>> getReceiptsByMonth(@RequestParam int year, @RequestParam int month) {
+        return ResponseEntity.ok(receiptService.getAllMyReceiptsByMonth(year, month));
+    }
+
     @GetMapping("/get/{id}")
     public ResponseEntity<ReceiptResponseDTO> getReceipt(@PathVariable UUID id) {
         return ResponseEntity.ok(receiptService.getReceiptById(id));

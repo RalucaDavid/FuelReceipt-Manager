@@ -1,11 +1,8 @@
 package com.example.fuel.receipt.manager.mappers;
 
 import com.example.fuel.receipt.manager.dtos.CreateUserDTO;
-import com.example.fuel.receipt.manager.dtos.LoginRequestDTO;
 import com.example.fuel.receipt.manager.dtos.UserResponseDTO;
 import com.example.fuel.receipt.manager.entities.User;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 
 public class AuthMapper {
     private AuthMapper() {
@@ -18,10 +15,6 @@ public class AuthMapper {
                 .firstName(createUserDto.firstName())
                 .lastName(createUserDto.lastName())
                 .build();
-    }
-
-    public static Authentication fromDto(final LoginRequestDTO loginRequestDTO) {
-        return new UsernamePasswordAuthenticationToken(loginRequestDTO.email(), loginRequestDTO.password());
     }
 
     public static UserResponseDTO toDto(final User user) {

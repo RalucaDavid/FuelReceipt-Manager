@@ -1,5 +1,7 @@
 package com.example.fuel.receipt.manager.handlers;
 
+import com.example.fuel.receipt.manager.exceptions.AccessForbiddenException;
+import com.example.fuel.receipt.manager.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,9 +24,17 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
     }
 
-    @ExceptionHandler(org.springframework.security.core.userdetails.UsernameNotFoundException.class)
+    @ExceptionHandler({
+        org.springframework.security.core.userdetails.UsernameNotFoundException.class,
+        ResourceNotFoundException.class
+    })
     public ResponseEntity<Object> handleNotFound(Exception ex) {
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(AccessForbiddenException.class)
+    public ResponseEntity<Object> handleForbidden(AccessForbiddenException ex) {
+        return buildResponse(HttpStatus.FORBIDDEN, ex.getMessage());
     }
 
     @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)

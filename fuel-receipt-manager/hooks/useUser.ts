@@ -15,7 +15,7 @@ const useUser = () => {
 
   return {
     user: data,
-    isLoading: isLoading || !data,
+    isLoading,
     isError: error,
     mutate,
   };

@@ -51,7 +51,7 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
     },
   });
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: typeof form.values) => {
     setIsLoading(true);
     setError(null);
 

@@ -2,6 +2,6 @@
 
 import ReceiptsPage from "@/components/receipts";
 
-export default function Dashboard() {
+export default function Receipts() {
   return <ReceiptsPage />;
 }

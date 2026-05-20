@@ -12,4 +12,5 @@ public interface ReceiptService {
     void deleteReceipt(UUID id);
     ReceiptResponseDTO getReceiptById(UUID id);
     void updateReceipt(UUID id, ReceiptRequestDTO dto);
+    List<ReceiptResponseDTO> getAllMyReceiptsByMonth(int year, int month);
 }
