@@ -1,8 +1,9 @@
 "use client";
 
-import { Accordion, Badge, Group, Stack, Text } from "@mantine/core";
+import { Accordion, Badge, Divider, Group, Stack, Text } from "@mantine/core";
 import { ReceiptResponseDTO } from "@/types/receipts";
 import ReceiptsTable from "../receipts-table";
+import ExportCSV from "../export-csv";
 import { Dictionary } from "@/dictionaries";
 import classes from "./receipts-by-month.module.css";
 
@@ -85,7 +86,15 @@ const ReceiptsByMonth = ({
               </Group>
             </Group>
           </Accordion.Control>
-          <Accordion.Panel p={0}>
+          <Accordion.Panel p="md" pt={0}>
+            <Divider mb="md" />
+            <Group justify="flex-end" mb="xs">
+              <ExportCSV
+                receipts={group.receipts}
+                filename={`receipts-${group.key}.csv`}
+                size="xs"
+              />
+            </Group>
             <ReceiptsTable
               receipts={group.receipts}
               onUpdate={onUpdate}

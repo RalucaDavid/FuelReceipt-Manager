@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { ReceiptResponseDTO } from "@/types/receipts";
 import { Button } from "@mantine/core";
 import { IoMdDownload } from "react-icons/io";
@@ -10,9 +9,11 @@ import { Dictionary } from "@/dictionaries";
 
 interface ExportCSVProps {
   receipts: ReceiptResponseDTO[] | undefined;
+  filename?: string;
+  size?: string;
 }
 
-const ExportCSV = ({ receipts }: ExportCSVProps) => {
+const ExportCSV = ({ receipts, filename, size }: ExportCSVProps) => {
   const headers = [
     { label: "Date", key: "date" },
     { label: "CIF", key: "cif" },
@@ -21,6 +22,8 @@ const ExportCSV = ({ receipts }: ExportCSVProps) => {
     { label: "Payment Method", key: "paymentMethod" },
     { label: "Total (RON)", key: "total" },
   ];
+
+  const resolvedFilename = filename ?? `receipts-export-${new Date().getTime()}.csv`;
 
   const csvData = receipts?.map((r) => ({
     ...r,
@@ -33,6 +36,7 @@ const ExportCSV = ({ receipts }: ExportCSVProps) => {
       <div style={{ textDecoration: "none" }}>
         <Button
           variant="outline"
+          size={size}
           leftSection={<IoMdDownload size={16} />}
           disabled
         >
@@ -46,11 +50,11 @@ const ExportCSV = ({ receipts }: ExportCSVProps) => {
     <CSVLink
       data={csvData}
       headers={headers}
-      filename={`receipts-export-${new Date().getTime()}.csv`}
+      filename={resolvedFilename}
       separator=";"
       style={{ textDecoration: "none" }}
     >
-      <Button variant="outline" leftSection={<IoMdDownload size={16} />}>
+      <Button variant="outline" size={size} leftSection={<IoMdDownload size={16} />}>
         {Dictionary.exportCSV}
       </Button>
     </CSVLink>
