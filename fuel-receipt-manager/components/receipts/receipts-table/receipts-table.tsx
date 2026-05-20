@@ -1,6 +1,6 @@
 import { FaRegCreditCard, FaTrash } from "react-icons/fa";
 import { useState } from "react";
-import { Table, Badge, Text, Group, ActionIcon, Paper } from "@mantine/core";
+import { Table, Badge, Text, Group, ActionIcon } from "@mantine/core";
 import { MdEdit } from "react-icons/md";
 import { IoIosCash } from "react-icons/io";
 import { ReceiptResponseDTO } from "@/types/receipts";
@@ -105,7 +105,7 @@ const ReceiptsTable = ({
   ));
 
   return (
-    <Paper shadow="sm" radius="md" p="md" withBorder>
+    <>
       <Table verticalSpacing="sm" highlightOnHover>
         <Table.Thead>
           <Table.Tr>
@@ -132,7 +132,7 @@ const ReceiptsTable = ({
       >
         <Text size="sm">{Dictionary.areYouSureYouWantToDeleteThisReceipt}</Text>
       </VerificationModal>
-    </Paper>
+    </>
   );
 };
 

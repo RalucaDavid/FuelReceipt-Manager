@@ -1,6 +1,7 @@
-.buttonsContainer{
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    gap: 10px;
+.buttonsContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 16px;
 }
