@@ -43,6 +43,16 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.BAD_REQUEST, firstError);
     }
 
+    @ExceptionHandler(java.io.IOException.class)
+    public ResponseEntity<Object> handleIOException(java.io.IOException ex) {
+        return buildResponse(HttpStatus.UNPROCESSABLE_ENTITY, "Could not process the uploaded file.");
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
+
     private ResponseEntity<Object> buildResponse(HttpStatus status, String message) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());

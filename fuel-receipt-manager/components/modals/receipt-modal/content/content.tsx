@@ -1,21 +1,31 @@
 import {
+  Button,
+  Divider,
+  FileInput,
   Group,
+  NumberInput,
   SegmentedControl,
   Stack,
-  TextInput,
   Text,
-  NumberInput,
-  Button,
+  TextInput,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { Dictionary } from "@/dictionaries";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
-import { ReceiptRequestDTO, ReceiptResponseDTO } from "@/types/receipts";
+import {
+  FuelType,
+  OcrResponseDTO,
+  PaymentMethod,
+  ReceiptRequestDTO,
+  ReceiptResponseDTO,
+} from "@/types/receipts";
 import dayjs from "dayjs";
 import { createReceipt, updateReceipt } from "@/api/receipts";
 import classes from "./content.module.css";
 import { notifications } from "@mantine/notifications";
+import { IoScan } from "react-icons/io5";
+import { scanReceipt } from "@/api/orc";
 
 interface ContentProps {
   receipt?: ReceiptResponseDTO;
@@ -23,9 +33,47 @@ interface ContentProps {
   onClose: () => void;
 }
 
+function parseOcrDate(dateStr: string | null): Date | null {
+  if (!dateStr) return null;
+  const match = dateStr.match(/(\d{2})[.,\-/]\s*(\d{2})[.,\-/]\s*(\d{4})/);
+  if (match) {
+    return new Date(
+      parseInt(match[3]),
+      parseInt(match[2]) - 1,
+      parseInt(match[1]),
+    );
+  }
+  return null;
+}
+
+function parseOcrTotal(totalStr: string | null): number {
+  if (!totalStr) return 0;
+  const parsed = parseFloat(totalStr.replace(",", ".").replace(/\s/g, ""));
+  return isNaN(parsed) ? 0 : parsed;
+}
+
+function applyOcrResult(result: OcrResponseDTO) {
+  return {
+    cif: result.cif ?? "",
+    date: parseOcrDate(result.date) ?? new Date(),
+    receiptNumber: result.receiptNumber ?? "",
+    fuelType:
+      result.fuelType === "DIESEL" || result.fuelType === "GASOLINE"
+        ? (result.fuelType as FuelType)
+        : ("DIESEL" as FuelType),
+    paymentMethod:
+      result.paymentMethod === "CARD" || result.paymentMethod === "CASH"
+        ? (result.paymentMethod as PaymentMethod)
+        : ("CARD" as PaymentMethod),
+    total: parseOcrTotal(result.total),
+  };
+}
+
 const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [scanFile, setScanFile] = useState<File | null>(null);
+  const [isScanning, setIsScanning] = useState(false);
 
   const form = useForm({
     mode: "uncontrolled",
@@ -50,6 +98,33 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
       total: (value) => (value === 0 ? Dictionary.totalRequired : null),
     },
   });
+
+  const handleScan = async () => {
+    if (!scanFile) return;
+    setIsScanning(true);
+    try {
+      const result = await scanReceipt(scanFile);
+      form.setValues(applyOcrResult(result));
+      notifications.show({
+        title: Dictionary.scanComplete,
+        message: Dictionary.scanCompleteDescription,
+        color: "blue",
+        autoClose: 4000,
+        withBorder: true,
+      });
+    } catch (err: unknown) {
+      notifications.show({
+        title: Dictionary.scanFailed,
+        message:
+          err instanceof Error ? err.message : Dictionary.anErrorHadOccurred,
+        color: "red",
+        autoClose: 4000,
+        withBorder: true,
+      });
+    } finally {
+      setIsScanning(false);
+    }
+  };
 
   const handleSubmit = async (values: typeof form.values) => {
     setIsLoading(true);
@@ -103,6 +178,34 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <Stack gap="md">
+        {!receipt && (
+          <>
+            <Text size="sm" c="dimmed">
+              {Dictionary.scanReceiptDescription}
+            </Text>
+            <Group align="flex-end" gap="xs">
+              <FileInput
+                style={{ flex: 1 }}
+                placeholder={Dictionary.uploadReceiptImage}
+                accept="image/*"
+                value={scanFile}
+                onChange={setScanFile}
+                disabled={isScanning || isLoading}
+              />
+              <Button
+                variant="outline"
+                leftSection={<IoScan size={16} />}
+                loading={isScanning}
+                disabled={!scanFile || isLoading}
+                onClick={handleScan}
+              >
+                {Dictionary.scanReceipt}
+              </Button>
+            </Group>
+            <Divider label={Dictionary.orFillManually} labelPosition="center" />
+          </>
+        )}
+
         <TextInput
           withAsterisk
           label={Dictionary.cif}

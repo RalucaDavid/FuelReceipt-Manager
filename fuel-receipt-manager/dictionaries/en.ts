@@ -65,4 +65,12 @@ export const Dictionary = {
   theReceiptCouldNotBeDeleted: "The receipt could not be deleted.",
   theReceiptHasBeenUpdated: "The receipt has been updated.",
   theReceiptHasBeenAdded: "The receipt has been added.",
+  scanReceipt: "Scan Receipt",
+  scanReceiptDescription: "Upload a photo of the receipt to auto-fill the form.",
+  scanning: "Scanning...",
+  scanComplete: "Scan complete",
+  scanCompleteDescription: "Fields have been pre-filled. Please verify before saving.",
+  scanFailed: "Scan failed",
+  orFillManually: "or fill manually",
+  uploadReceiptImage: "Upload receipt image",
 };
