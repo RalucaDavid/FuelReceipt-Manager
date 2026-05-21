@@ -11,7 +11,7 @@ import {
 import { ReceiptResponseDTO } from "@/types/receipts";
 import { Dictionary } from "@/dictionaries";
 
-interface Props {
+interface FuelTypeChartProps {
   receipts: ReceiptResponseDTO[];
 }
 
@@ -24,7 +24,7 @@ const COLORS = [
   "#82CA9D",
 ];
 
-export default function FuelTypeChart({ receipts }: Props) {
+const FuelTypeChart = ({ receipts }: FuelTypeChartProps) => {
   const data = useMemo(() => {
     const map = new Map<string, number>();
     receipts?.forEach((r) => {
@@ -61,10 +61,12 @@ export default function FuelTypeChart({ receipts }: Props) {
               <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip formatter={(v: number) => `${Number(v).toFixed(2)} RON`} />
+          <Tooltip formatter={(v) => `${Number(v).toFixed(2)} RON`} />
           <Legend />
         </PieChart>
       </ResponsiveContainer>
     </div>
   );
-}
+};
+
+export default FuelTypeChart;

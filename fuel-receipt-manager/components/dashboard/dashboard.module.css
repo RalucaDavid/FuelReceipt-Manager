@@ -1,0 +1,19 @@
+.dashboardPage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 10px 32px;
+  max-width: 1400px;
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .chartsGrid {
+    grid-template-columns: 1fr;
+  }
+}

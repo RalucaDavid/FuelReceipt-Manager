@@ -73,4 +73,12 @@ export const Dictionary = {
   scanFailed: "Scan failed",
   orFillManually: "or fill manually",
   uploadReceiptImage: "Upload receipt image",
+  totalReceipts: "Total Receipts",
+  totalSpent: "Total Spent",
+  thisMonth: "This Month",
+  avgReceipt: "Avg. Receipt",
+  monthlySpending: "Monthly Spending",
+  spendingByFuelType: "By Fuel Type",
+  recentReceipts: "Recent Receipts",
+  noReceiptsYet: "No receipts yet.",
 };
