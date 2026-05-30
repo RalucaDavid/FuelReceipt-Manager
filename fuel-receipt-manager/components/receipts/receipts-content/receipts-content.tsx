@@ -19,6 +19,7 @@ interface ReceiptsContentProps {
   isLoading?: boolean;
   mutate?: () => void;
   defaultVehicleId?: string;
+  readOnly?: boolean;
 }
 
 const ReceiptsContent = ({
@@ -26,6 +27,7 @@ const ReceiptsContent = ({
   isLoading: externalLoading,
   mutate: externalMutate,
   defaultVehicleId,
+  readOnly = false,
 }: ReceiptsContentProps = {}) => {
   const {
     allReceipts: hookReceipts,
@@ -77,13 +79,15 @@ const ReceiptsContent = ({
     <>
       <div className={classes.buttonsContainer}>
         <ExportCSV receipts={allReceipts} />
-        <Button
-          className={classes.button}
-          loading={isLoading}
-          onClick={handleOpenCreate}
-        >
-          {Dictionary.addNewReceipt}
-        </Button>
+        {!readOnly && (
+          <Button
+            className={classes.button}
+            loading={isLoading}
+            onClick={handleOpenCreate}
+          >
+            {Dictionary.addNewReceipt}
+          </Button>
+        )}
       </div>
 
       {isLoading ? (
@@ -93,18 +97,21 @@ const ReceiptsContent = ({
       ) : (
         <ReceiptsByMonth
           receipts={allReceipts}
-          onUpdate={handleOpenEdit}
-          onDelete={handleDelete}
+          onUpdate={readOnly ? undefined : handleOpenEdit}
+          onDelete={readOnly ? undefined : handleDelete}
+          readOnly={readOnly}
         />
       )}
 
-      <ReceiptModal
-        receipt={selectedReceipt}
-        opened={opened}
-        onClose={close}
-        onSuccess={() => mutate()}
-        defaultVehicleId={defaultVehicleId}
-      />
+      {!readOnly && (
+        <ReceiptModal
+          receipt={selectedReceipt}
+          opened={opened}
+          onClose={close}
+          onSuccess={() => mutate()}
+          defaultVehicleId={defaultVehicleId}
+        />
+      )}
     </>
   );
 };

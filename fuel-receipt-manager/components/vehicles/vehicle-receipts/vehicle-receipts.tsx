@@ -31,7 +31,9 @@ const VehicleReceipts = ({ vehicleId }: VehicleReceiptsProps) => {
       </Group>
 
       <Title order={2} mb="lg">
-        {vehicle ? `${vehicle.make} ${vehicle.model} · ${vehicle.licensePlate}` : Dictionary.receipts}
+        {vehicle
+          ? [vehicle.brand, vehicle.model].filter(Boolean).join(" ") + ` · ${vehicle.licensePlate}`
+          : Dictionary.receipts}
       </Title>
 
       <ReceiptsContent
@@ -39,6 +41,7 @@ const VehicleReceipts = ({ vehicleId }: VehicleReceiptsProps) => {
         isLoading={isLoading}
         mutate={mutate}
         defaultVehicleId={vehicleId}
+        readOnly
       />
     </div>
   );

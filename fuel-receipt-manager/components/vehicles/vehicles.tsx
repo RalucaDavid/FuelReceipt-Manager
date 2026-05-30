@@ -10,6 +10,7 @@ import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { MdEdit } from "react-icons/md";
 import { FaTrash, FaCar } from "react-icons/fa";
+import Link from "next/link";
 import { Dictionary } from "@/dictionaries";
 import useVehicles from "@/hooks/useVehicles";
 import { createVehicle, updateVehicle, deleteVehicle } from "@/api/vehicles";
@@ -116,10 +117,12 @@ const VehiclesPage = () => {
   const rows = vehicles?.map((v) => (
     <Table.Tr key={v.id}>
       <Table.Td>
-        <Group gap="xs">
-          <FaCar size={14} color="var(--mantine-color-blue-6)" />
-          <Text size="sm" fw={600}>{v.licensePlate}</Text>
-        </Group>
+        <Link href={`/vehicles/${v.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+          <Group gap="xs">
+            <FaCar size={14} color="var(--mantine-color-blue-6)" />
+            <Text size="sm" fw={600} c="blue" style={{ cursor: "pointer" }}>{v.licensePlate}</Text>
+          </Group>
+        </Link>
       </Table.Td>
       <Table.Td><Text size="sm">{v.brand ?? "—"}</Text></Table.Td>
       <Table.Td><Text size="sm">{v.model ?? "—"}</Text></Table.Td>
