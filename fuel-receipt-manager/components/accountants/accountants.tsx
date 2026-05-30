@@ -18,11 +18,12 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { MdPersonRemove } from "react-icons/md";
+import { MdPersonRemove, MdPersonAdd } from "react-icons/md";
 import useAccountants from "@/hooks/useAccountants";
 import { removeAccountant } from "@/api/clients";
 import { ClientResponseDTO } from "@/types/client";
 import classes from "./accountants.module.css";
+import InviteAccountantModal from "@/components/modals/invite-accountant-modal";
 
 const getInitials = (firstName: string, lastName: string) =>
   `${firstName[0] ?? ""}${lastName[0] ?? ""}`.toUpperCase();
@@ -32,6 +33,7 @@ const AccountantsPage = () => {
   const [removing, setRemoving] = useState(false);
   const [selected, setSelected] = useState<ClientResponseDTO | null>(null);
   const [opened, { open, close }] = useDisclosure(false);
+  const [inviteOpened, { open: openInvite, close: closeInvite }] = useDisclosure(false);
 
   const handleOpenRemove = (accountant: ClientResponseDTO) => {
     setSelected(accountant);
@@ -58,7 +60,8 @@ const AccountantsPage = () => {
     } catch (err: unknown) {
       notifications.show({
         title: Dictionary.error,
-        message: err instanceof Error ? err.message : Dictionary.anErrorHadOccurred,
+        message:
+          err instanceof Error ? err.message : Dictionary.anErrorHadOccurred,
         color: "red",
       });
     } finally {
@@ -117,6 +120,9 @@ const AccountantsPage = () => {
             </Text>
           )}
         </div>
+        <Button leftSection={<MdPersonAdd size={16} />} onClick={openInvite}>
+          {Dictionary.inviteAccountant}
+        </Button>
       </Group>
 
       {isLoading && (
@@ -136,7 +142,9 @@ const AccountantsPage = () => {
           <Table verticalSpacing="sm" highlightOnHover>
             <Table.Thead>
               <Table.Tr>
-                <Table.Th>{Dictionary.firstName} / {Dictionary.lastName}</Table.Th>
+                <Table.Th>
+                  {Dictionary.firstName} / {Dictionary.lastName}
+                </Table.Th>
                 <Table.Th>{Dictionary.accountType}</Table.Th>
                 <Table.Th />
               </Table.Tr>
@@ -145,6 +153,8 @@ const AccountantsPage = () => {
           </Table>
         </div>
       )}
+
+      <InviteAccountantModal opened={inviteOpened} onClose={closeInvite} />
 
       <Modal
         opened={opened}
@@ -165,7 +175,11 @@ const AccountantsPage = () => {
             <Button variant="default" onClick={handleClose} disabled={removing}>
               {Dictionary.cancel}
             </Button>
-            <Button color="red" onClick={handleConfirmRemove} loading={removing}>
+            <Button
+              color="red"
+              onClick={handleConfirmRemove}
+              loading={removing}
+            >
               {Dictionary.confirm}
             </Button>
           </Group>

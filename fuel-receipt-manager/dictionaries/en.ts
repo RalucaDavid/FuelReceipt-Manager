@@ -30,7 +30,8 @@ export const Dictionary = {
   clients: "Clients",
   myClients: "My Clients",
   inviteAccountant: "Invite Accountant",
-  inviteAccountantDescription: "Enter the email of the accountant you want to invite.",
+  inviteAccountantDescription:
+    "Enter the email of the accountant you want to invite.",
   accountantEmail: "Accountant Email",
   enterAccountantEmail: "Enter accountant's email",
   invite: "Invite",
@@ -38,7 +39,8 @@ export const Dictionary = {
   confirmInviteAccountant: "Are you sure you want to invite",
   removeClient: "Remove Client",
   confirmRemoveClient: "Are you sure you want to remove",
-  confirmRemoveClientSuffix: "from your clients? You will no longer have access to their receipts.",
+  confirmRemoveClientSuffix:
+    "from your clients? You will no longer have access to their receipts.",
   clientRemoved: "Client removed successfully.",
   vehicles: "Vehicles",
   myVehicles: "My Vehicles",
@@ -65,12 +67,14 @@ export const Dictionary = {
   vehicleRequired: "Vehicle is required.",
   myAccountants: "My Accountants",
   accountants: "Accountants",
-  noAccountantsYet: "No accountants linked yet. Use 'Invite Accountant' to add one.",
+  noAccountantsYet:
+    "No accountants linked yet. Use 'Invite Accountant' to add one.",
   removeAccountant: "Remove Accountant",
-  confirmRemoveAccountantSuffix: "from your accountants? They will lose access to your receipts.",
+  confirmRemoveAccountantSuffix:
+    "from your accountants? They will lose access to your receipts.",
   accountantRemoved: "Accountant removed successfully.",
   noClientsYet: "No clients yet.",
-  viewReceipts: "View Receipts",
+  viewVehicles: "View Vehicles",
   backToClients: "Back to Clients",
   backToVehicles: "Back to Vehicles",
   authenticationFailed: "Authentication failed.",
@@ -116,10 +120,12 @@ export const Dictionary = {
   theReceiptHasBeenUpdated: "The receipt has been updated.",
   theReceiptHasBeenAdded: "The receipt has been added.",
   scanReceipt: "Scan Receipt",
-  scanReceiptDescription: "Upload a photo of the receipt to auto-fill the form.",
+  scanReceiptDescription:
+    "Upload a photo of the receipt to auto-fill the form.",
   scanning: "Scanning...",
   scanComplete: "Scan complete",
-  scanCompleteDescription: "Fields have been pre-filled. Please verify before saving.",
+  scanCompleteDescription:
+    "Fields have been pre-filled. Please verify before saving.",
   scanFailed: "Scan failed",
   orFillManually: "or fill manually",
   uploadReceiptImage: "Upload receipt image",

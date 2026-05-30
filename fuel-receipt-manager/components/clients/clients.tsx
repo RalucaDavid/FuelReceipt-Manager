@@ -32,7 +32,8 @@ const getInitials = (firstName: string, lastName: string) =>
 const ClientsPage = () => {
   const { clients, isLoading, mutate } = useClients();
   const [removing, setRemoving] = useState(false);
-  const [selectedClient, setSelectedClient] = useState<ClientResponseDTO | null>(null);
+  const [selectedClient, setSelectedClient] =
+    useState<ClientResponseDTO | null>(null);
   const [opened, { open, close }] = useDisclosure(false);
 
   const handleOpenRemove = (client: ClientResponseDTO) => {
@@ -60,7 +61,8 @@ const ClientsPage = () => {
     } catch (err: unknown) {
       notifications.show({
         title: Dictionary.error,
-        message: err instanceof Error ? err.message : Dictionary.anErrorHadOccurred,
+        message:
+          err instanceof Error ? err.message : Dictionary.anErrorHadOccurred,
         color: "red",
       });
     } finally {
@@ -99,7 +101,7 @@ const ClientsPage = () => {
             variant="light"
             leftSection={<IoReceiptSharp size={14} />}
           >
-            {Dictionary.viewReceipts}
+            {Dictionary.viewVehicles}
           </Button>
           <Tooltip label={Dictionary.removeClient} withArrow>
             <ActionIcon
@@ -147,7 +149,9 @@ const ClientsPage = () => {
           <Table verticalSpacing="sm" highlightOnHover>
             <Table.Thead>
               <Table.Tr>
-                <Table.Th>{Dictionary.firstName} / {Dictionary.lastName}</Table.Th>
+                <Table.Th>
+                  {Dictionary.firstName} / {Dictionary.lastName}
+                </Table.Th>
                 <Table.Th>{Dictionary.accountType}</Table.Th>
                 <Table.Th />
               </Table.Tr>
@@ -176,7 +180,11 @@ const ClientsPage = () => {
             <Button variant="default" onClick={handleClose} disabled={removing}>
               {Dictionary.cancel}
             </Button>
-            <Button color="red" onClick={handleConfirmRemove} loading={removing}>
+            <Button
+              color="red"
+              onClick={handleConfirmRemove}
+              loading={removing}
+            >
               {Dictionary.confirm}
             </Button>
           </Group>

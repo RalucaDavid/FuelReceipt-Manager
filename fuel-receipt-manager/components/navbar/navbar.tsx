@@ -8,13 +8,11 @@ import {
 } from "@mantine/core";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useDisclosure } from "@mantine/hooks";
 import { BsBoxFill } from "react-icons/bs";
-import { MdDashboard, MdPeople, MdPersonAdd, MdManageAccounts, MdDirectionsCar } from "react-icons/md";
+import { MdDashboard, MdPeople, MdManageAccounts, MdDirectionsCar } from "react-icons/md";
 import { Dictionary } from "@/dictionaries";
 import UserAvatar from "../user-avatar";
 import useUser from "@/hooks/useUser";
-import InviteAccountantModal from "@/components/modals/invite-accountant-modal";
 import classes from "./navbar.module.css";
 
 interface NavbarProps {
@@ -24,8 +22,6 @@ interface NavbarProps {
 const Navbar = ({ children }: NavbarProps) => {
   const pathname = usePathname();
   const { user } = useUser();
-  const [inviteOpened, { open: openInvite, close: closeInvite }] = useDisclosure(false);
-
   const navData = [
     { icon: MdDashboard, label: Dictionary.dashboard, href: "/dashboard" },
     ...(user?.role === "COMPANY"
@@ -37,8 +33,7 @@ const Navbar = ({ children }: NavbarProps) => {
   ];
 
   return (
-    <>
-      <AppShell
+    <AppShell
         padding="md"
         navbar={{
           width: 300,
@@ -74,26 +69,16 @@ const Navbar = ({ children }: NavbarProps) => {
             ))}
 
             {user?.role === "COMPANY" && (
-              <>
-                <NavLink
-                  component={Link}
-                  href="/accountants"
-                  label={Dictionary.myAccountants}
-                  active={pathname === "/accountants"}
-                  leftSection={<MdManageAccounts size={20} />}
-                  variant="filled"
-                  color="blue"
-                  classNames={{ root: classes.navLinkRoot }}
-                />
-                <NavLink
-                  label={Dictionary.inviteAccountant}
-                  leftSection={<MdPersonAdd size={20} />}
-                  variant="filled"
-                  color="blue"
-                  classNames={{ root: classes.navLinkRoot }}
-                  onClick={openInvite}
-                />
-              </>
+              <NavLink
+                component={Link}
+                href="/accountants"
+                label={Dictionary.myAccountants}
+                active={pathname === "/accountants"}
+                leftSection={<MdManageAccounts size={20} />}
+                variant="filled"
+                color="blue"
+                classNames={{ root: classes.navLinkRoot }}
+              />
             )}
           </Stack>
 
@@ -102,9 +87,6 @@ const Navbar = ({ children }: NavbarProps) => {
 
         <AppShell.Main>{children}</AppShell.Main>
       </AppShell>
-
-      <InviteAccountantModal opened={inviteOpened} onClose={closeInvite} />
-    </>
   );
 };
 
