@@ -13,4 +13,5 @@ public interface ReceiptService {
     ReceiptResponseDTO getReceiptById(UUID id);
     void updateReceipt(UUID id, ReceiptRequestDTO dto);
     List<ReceiptResponseDTO> getAllMyReceiptsByMonth(int year, int month);
+    List<ReceiptResponseDTO> getAllMyReceiptsByVehicle(UUID vehicleId);
 }

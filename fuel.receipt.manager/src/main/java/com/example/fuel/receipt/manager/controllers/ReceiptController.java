@@ -50,6 +50,11 @@ public class ReceiptController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/get-all-by-vehicle/{vehicleId}")
+    public ResponseEntity<List<ReceiptResponseDTO>> getReceiptsByVehicle(@PathVariable UUID vehicleId) {
+        return ResponseEntity.ok(receiptService.getAllMyReceiptsByVehicle(vehicleId));
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteReceipt(@PathVariable UUID id) {
         receiptService.deleteReceipt(id);

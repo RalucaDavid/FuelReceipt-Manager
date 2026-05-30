@@ -72,6 +72,7 @@ export const Dictionary = {
   noClientsYet: "No clients yet.",
   viewReceipts: "View Receipts",
   backToClients: "Back to Clients",
+  backToVehicles: "Back to Vehicles",
   authenticationFailed: "Authentication failed.",
   dashboard: "Dashboard",
   receipts: "Receipts",

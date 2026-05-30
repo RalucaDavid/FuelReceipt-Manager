@@ -9,6 +9,7 @@ interface ReceiptModalProps {
   onClose: () => void;
   opened: boolean;
   onSuccess: () => void;
+  defaultVehicleId?: string;
 }
 
 const ReceiptModal = ({
@@ -16,6 +17,7 @@ const ReceiptModal = ({
   onClose,
   opened,
   onSuccess,
+  defaultVehicleId,
 }: ReceiptModalProps) => {
   return (
     <Modal
@@ -28,7 +30,12 @@ const ReceiptModal = ({
         title: classes.modalTitle,
       }}
     >
-      <Content receipt={receipt} onSuccess={onSuccess} onClose={onClose} />
+      <Content
+        receipt={receipt}
+        onSuccess={onSuccess}
+        onClose={onClose}
+        defaultVehicleId={defaultVehicleId}
+      />
     </Modal>
   );
 };

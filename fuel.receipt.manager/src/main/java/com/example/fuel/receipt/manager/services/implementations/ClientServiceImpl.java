@@ -3,8 +3,10 @@ package com.example.fuel.receipt.manager.services.implementations;
 import com.example.fuel.receipt.manager.dtos.ClientResponseDTO;
 import com.example.fuel.receipt.manager.dtos.InviteAccountantDTO;
 import com.example.fuel.receipt.manager.dtos.ReceiptResponseDTO;
+import com.example.fuel.receipt.manager.dtos.VehicleResponseDTO;
 import com.example.fuel.receipt.manager.entities.AccountantClient;
 import com.example.fuel.receipt.manager.entities.User;
+import com.example.fuel.receipt.manager.entities.Vehicle;
 import com.example.fuel.receipt.manager.enums.Role;
 import com.example.fuel.receipt.manager.exceptions.AccessForbiddenException;
 import com.example.fuel.receipt.manager.exceptions.ResourceNotFoundException;
@@ -12,6 +14,7 @@ import com.example.fuel.receipt.manager.mappers.ReceiptMapper;
 import com.example.fuel.receipt.manager.repositories.AccountantClientRepository;
 import com.example.fuel.receipt.manager.repositories.ReceiptRepository;
 import com.example.fuel.receipt.manager.repositories.UserRepository;
+import com.example.fuel.receipt.manager.repositories.VehicleRepository;
 import com.example.fuel.receipt.manager.services.interfaces.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +32,7 @@ public class ClientServiceImpl implements ClientService {
     private final AccountantClientRepository accountantClientRepository;
     private final UserRepository userRepository;
     private final ReceiptRepository receiptRepository;
+    private final VehicleRepository vehicleRepository;
 
     private User getCurrentUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -82,17 +86,31 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ReceiptResponseDTO> getClientReceipts(UUID clientId) {
+    public List<VehicleResponseDTO> getClientVehicles(UUID clientId) {
+        User accountant = getCurrentUser();
+        if (accountant.getRole() != Role.ACCOUNTANT) {
+            throw new AccessForbiddenException("Only accountants can view client vehicles");
+        }
+        if (!accountantClientRepository.existsByAccountantIdAndCompanyId(accountant.getId(), clientId)) {
+            throw new AccessForbiddenException("You are not linked to this company");
+        }
+        return vehicleRepository.findByUserId(clientId)
+                .stream()
+                .map(v -> new VehicleResponseDTO(v.getId(), v.getLicensePlate(), v.getBrand(), v.getModel(), v.getYear(), v.getVin()))
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReceiptResponseDTO> getClientVehicleReceipts(UUID clientId, UUID vehicleId) {
         User accountant = getCurrentUser();
         if (accountant.getRole() != Role.ACCOUNTANT) {
             throw new AccessForbiddenException("Only accountants can view client receipts");
         }
-
         if (!accountantClientRepository.existsByAccountantIdAndCompanyId(accountant.getId(), clientId)) {
             throw new AccessForbiddenException("You are not linked to this company");
         }
-
-        return receiptRepository.findByUserIdOrderByDateDesc(clientId)
+        return receiptRepository.findByUserIdAndVehicleIdOrderByDateDesc(clientId, vehicleId)
                 .stream()
                 .map(ReceiptMapper::toDto)
                 .toList();

@@ -1,13 +1,13 @@
 "use client";
 
 import { use } from "react";
-import ClientReceipts from "@/components/clients/client-receipts";
+import ClientVehicles from "@/components/clients/client-vehicles";
 
-export default function ClientReceiptsPage({
+export default function ClientVehiclesPage({
   params,
 }: {
   params: Promise<{ clientId: string }>;
 }) {
   const { clientId } = use(params);
-  return <ClientReceipts clientId={clientId} />;
+  return <ClientVehicles clientId={clientId} />;
 }

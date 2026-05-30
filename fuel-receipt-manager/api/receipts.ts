@@ -4,6 +4,8 @@ import { ErrorResponse } from "@/types/error";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const getAllReceiptsURL = () => `${BASE_URL}/receipts/get-all`;
+export const getReceiptsByVehicleURL = (vehicleId: string) =>
+  `${BASE_URL}/receipts/get-all-by-vehicle/${vehicleId}`;
 
 export async function getReceiptById(id: string): Promise<ReceiptResponseDTO> {
   const response = await fetch(`${BASE_URL}/receipts/get/${id}`, {

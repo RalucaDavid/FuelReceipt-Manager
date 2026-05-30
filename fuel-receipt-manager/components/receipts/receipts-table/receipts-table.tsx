@@ -11,14 +11,16 @@ import { useDisclosure } from "@mantine/hooks";
 
 interface ReceiptsTableProps {
   receipts: ReceiptResponseDTO[] | undefined;
-  onUpdate: (receipt: ReceiptResponseDTO) => void;
-  onDelete: (receiptId: string) => void;
+  onUpdate?: (receipt: ReceiptResponseDTO) => void;
+  onDelete?: (receiptId: string) => void;
+  readOnly?: boolean;
 }
 
 const ReceiptsTable = ({
   receipts,
   onUpdate,
   onDelete,
+  readOnly = false,
 }: ReceiptsTableProps) => {
   const [opened, { open, close }] = useDisclosure(false);
   const [selectedReceiptId, setSelectedReceiptId] = useState<string | null>(
@@ -88,24 +90,18 @@ const ReceiptsTable = ({
         </Text>
       </Table.Td>
 
-      <Table.Td>
-        <Group gap={0} justify="flex-end">
-          <ActionIcon
-            variant="subtle"
-            color="gray"
-            onClick={() => onUpdate(receipt)}
-          >
-            <MdEdit size={16} />
-          </ActionIcon>
-          <ActionIcon
-            variant="subtle"
-            color="red"
-            onClick={() => handleOpenDelete(receipt.id)}
-          >
-            <FaTrash size={16} />
-          </ActionIcon>
-        </Group>
-      </Table.Td>
+      {!readOnly && (
+        <Table.Td>
+          <Group gap={0} justify="flex-end">
+            <ActionIcon variant="subtle" color="gray" onClick={() => onUpdate?.(receipt)}>
+              <MdEdit size={16} />
+            </ActionIcon>
+            <ActionIcon variant="subtle" color="red" onClick={() => handleOpenDelete(receipt.id)}>
+              <FaTrash size={16} />
+            </ActionIcon>
+          </Group>
+        </Table.Td>
+      )}
     </Table.Tr>
   ));
 
@@ -121,7 +117,7 @@ const ReceiptsTable = ({
             <Table.Th>{Dictionary.fuelType}</Table.Th>
             <Table.Th>{Dictionary.paymentMethod}</Table.Th>
             <Table.Th>{Dictionary.total}</Table.Th>
-            <Table.Th />
+            {!readOnly && <Table.Th />}
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>

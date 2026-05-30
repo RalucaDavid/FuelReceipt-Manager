@@ -12,6 +12,8 @@ import java.util.UUID;
 @Repository
 public interface ReceiptRepository extends JpaRepository<Receipt, UUID> {
     List<Receipt> findByUserIdOrderByDateDesc(UUID userId);
+    List<Receipt> findByUserIdAndVehicleIdOrderByDateDesc(UUID userId, UUID vehicleId);
+    List<Receipt> findByVehicleIdOrderByDateDesc(UUID vehicleId);
 
     @Query("SELECT r FROM Receipt r WHERE r.user.id = :userId AND YEAR(r.date) = :year AND MONTH(r.date) = :month")
     List<Receipt> findByUserIdAndYearAndMonth(@Param("userId") UUID userId, @Param("year") int year, @Param("month") int month);

@@ -33,6 +33,7 @@ interface ContentProps {
   receipt?: ReceiptResponseDTO;
   onSuccess: () => void;
   onClose: () => void;
+  defaultVehicleId?: string;
 }
 
 function parseOcrDate(dateStr: string | null): Date | null {
@@ -71,7 +72,7 @@ function applyOcrResult(result: OcrResponseDTO) {
   };
 }
 
-const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
+const Content = ({ receipt, onSuccess, onClose, defaultVehicleId }: ContentProps) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [scanFile, setScanFile] = useState<File | null>(null);
@@ -94,7 +95,7 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
       fuelType: receipt ? receipt.fuelType : "DIESEL",
       paymentMethod: receipt ? receipt.paymentMethod : "CARD",
       total: receipt ? receipt.total : 0,
-      vehicleId: receipt?.vehicleId ?? "",
+      vehicleId: receipt?.vehicleId ?? defaultVehicleId ?? "",
     },
 
     validate: {

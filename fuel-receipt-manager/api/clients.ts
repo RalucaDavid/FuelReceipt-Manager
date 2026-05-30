@@ -3,8 +3,10 @@ import { ErrorResponse } from "@/types/error";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const getMyClientsURL = () => `${BASE_URL}/clients`;
-export const getClientReceiptsURL = (clientId: string) =>
-  `${BASE_URL}/clients/${clientId}/receipts`;
+export const getClientVehiclesURL = (clientId: string) =>
+  `${BASE_URL}/clients/${clientId}/vehicles`;
+export const getClientVehicleReceiptsURL = (clientId: string, vehicleId: string) =>
+  `${BASE_URL}/clients/${clientId}/vehicles/${vehicleId}/receipts`;
 export const getMyAccountantsURL = () => `${BASE_URL}/clients/accountants`;
 
 export async function inviteAccountant(accountantEmail: string): Promise<void> {

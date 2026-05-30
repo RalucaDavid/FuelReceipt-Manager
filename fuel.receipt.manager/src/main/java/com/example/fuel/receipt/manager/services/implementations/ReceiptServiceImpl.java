@@ -115,4 +115,15 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .map(ReceiptMapper::toDto)
                 .toList();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReceiptResponseDTO> getAllMyReceiptsByVehicle(UUID vehicleId) {
+        vehicleRepository.findByIdAndUserId(vehicleId, getCurrentUser().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found"));
+        return receiptRepository.findByVehicleIdOrderByDateDesc(vehicleId)
+                .stream()
+                .map(ReceiptMapper::toDto)
+                .toList();
+    }
 }

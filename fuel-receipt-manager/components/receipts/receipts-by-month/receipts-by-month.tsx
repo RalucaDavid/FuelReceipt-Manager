@@ -41,14 +41,16 @@ const groupByMonth = (receipts: ReceiptResponseDTO[]): MonthGroup[] => {
 
 interface ReceiptsByMonthProps {
   receipts: ReceiptResponseDTO[];
-  onUpdate: (receipt: ReceiptResponseDTO) => void;
-  onDelete: (id: string) => void;
+  onUpdate?: (receipt: ReceiptResponseDTO) => void;
+  onDelete?: (id: string) => void;
+  readOnly?: boolean;
 }
 
 const ReceiptsByMonth = ({
   receipts,
   onUpdate,
   onDelete,
+  readOnly = false,
 }: ReceiptsByMonthProps) => {
   const groups = groupByMonth(receipts);
 
@@ -99,6 +101,7 @@ const ReceiptsByMonth = ({
               receipts={group.receipts}
               onUpdate={onUpdate}
               onDelete={onDelete}
+              readOnly={readOnly}
             />
           </Accordion.Panel>
         </Accordion.Item>

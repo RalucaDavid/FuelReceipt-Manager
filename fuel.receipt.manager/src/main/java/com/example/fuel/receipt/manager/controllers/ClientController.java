@@ -3,6 +3,7 @@ package com.example.fuel.receipt.manager.controllers;
 import com.example.fuel.receipt.manager.dtos.ClientResponseDTO;
 import com.example.fuel.receipt.manager.dtos.InviteAccountantDTO;
 import com.example.fuel.receipt.manager.dtos.ReceiptResponseDTO;
+import com.example.fuel.receipt.manager.dtos.VehicleResponseDTO;
 import com.example.fuel.receipt.manager.services.interfaces.ClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +32,16 @@ public class ClientController {
         return ResponseEntity.ok(clientService.getMyClients());
     }
 
-    @GetMapping("/{clientId}/receipts")
-    public ResponseEntity<List<ReceiptResponseDTO>> getClientReceipts(@PathVariable UUID clientId) {
-        return ResponseEntity.ok(clientService.getClientReceipts(clientId));
+    @GetMapping("/{clientId}/vehicles")
+    public ResponseEntity<List<VehicleResponseDTO>> getClientVehicles(@PathVariable UUID clientId) {
+        return ResponseEntity.ok(clientService.getClientVehicles(clientId));
+    }
+
+    @GetMapping("/{clientId}/vehicles/{vehicleId}/receipts")
+    public ResponseEntity<List<ReceiptResponseDTO>> getClientVehicleReceipts(
+            @PathVariable UUID clientId,
+            @PathVariable UUID vehicleId) {
+        return ResponseEntity.ok(clientService.getClientVehicleReceipts(clientId, vehicleId));
     }
 
     @DeleteMapping("/{clientId}")

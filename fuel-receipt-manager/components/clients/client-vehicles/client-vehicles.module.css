@@ -1,0 +1,12 @@
+.page {
+  padding: 16px;
+}
+
+.vehicleCard {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.vehicleCard:hover {
+  background-color: var(--mantine-color-blue-0);
+}
