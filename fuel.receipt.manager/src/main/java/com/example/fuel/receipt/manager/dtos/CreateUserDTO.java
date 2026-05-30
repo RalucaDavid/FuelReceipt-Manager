@@ -1,7 +1,9 @@
 package com.example.fuel.receipt.manager.dtos;
 
+import com.example.fuel.receipt.manager.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record CreateUserDTO(
@@ -17,6 +19,9 @@ public record CreateUserDTO(
 
         @NotBlank
         @Size(min = 8, message = "Password must be at least 8 characters long")
-        String password
+        String password,
+
+        @NotNull
+        Role role
 ) {
 }

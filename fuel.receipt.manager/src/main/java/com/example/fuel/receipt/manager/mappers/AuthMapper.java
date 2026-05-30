@@ -14,10 +14,11 @@ public class AuthMapper {
                 .email(createUserDto.email())
                 .firstName(createUserDto.firstName())
                 .lastName(createUserDto.lastName())
+                .role(createUserDto.role())
                 .build();
     }
 
     public static UserResponseDTO toDto(final User user) {
-        return new UserResponseDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
+        return new UserResponseDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole());
     }
 }

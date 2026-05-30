@@ -1,9 +1,7 @@
 package com.example.fuel.receipt.manager.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.example.fuel.receipt.manager.enums.Role;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,10 +28,13 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        String authority = role != null ? "ROLE_" + role.name() : "ROLE_COMPANY";
+        return List.of(new SimpleGrantedAuthority(authority));
     }
 
     @Override

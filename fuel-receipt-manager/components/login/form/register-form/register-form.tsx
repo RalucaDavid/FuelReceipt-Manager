@@ -1,6 +1,6 @@
 import { useForm } from "@mantine/form";
 import { Dictionary } from "@/dictionaries";
-import { Button, PasswordInput, TextInput, Text } from "@mantine/core";
+import { Button, PasswordInput, TextInput, Text, SegmentedControl, InputWrapper } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import classes from "./register-form.module.css";
@@ -13,13 +13,14 @@ const RegisterForm = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm({
+  const form = useForm<CreateUserDTO>({
     mode: "uncontrolled",
     initialValues: {
       firstName: "",
       lastName: "",
       email: "",
       password: "",
+      role: "COMPANY",
     },
 
     validate: {
@@ -40,6 +41,7 @@ const RegisterForm = () => {
         }
         return null;
       },
+      role: (value) => (value ? null : Dictionary.accountTypeRequired),
     },
   });
 
@@ -104,6 +106,18 @@ const RegisterForm = () => {
         {...form.getInputProps("password")}
         disabled={isLoading}
       />
+      <InputWrapper label={Dictionary.accountType} withAsterisk>
+        <SegmentedControl
+          fullWidth
+          data={[
+            { label: Dictionary.company, value: "COMPANY" },
+            { label: Dictionary.accountant, value: "ACCOUNTANT" },
+          ]}
+          key={form.key("role")}
+          {...form.getInputProps("role")}
+          disabled={isLoading}
+        />
+      </InputWrapper>
       <Button type="submit" className={classes.button} loading={isLoading}>
         {Dictionary.register}
       </Button>

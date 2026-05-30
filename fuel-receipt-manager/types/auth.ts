@@ -1,8 +1,11 @@
+export type Role = "COMPANY" | "ACCOUNTANT";
+
 export interface CreateUserDTO {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
+  role: Role;
 }
 
 export interface LoginRequestDTO {
@@ -15,4 +18,5 @@ export interface UserResponseDTO {
   firstName: string;
   lastName: string;
   email: string;
+  role: Role;
 }
