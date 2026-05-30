@@ -1,0 +1,13 @@
+.page {
+  padding: 16px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-md);
+}
+
+.row {
+  transition: background-color 0.1s ease;
+}

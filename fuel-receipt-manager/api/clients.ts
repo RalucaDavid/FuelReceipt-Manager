@@ -1,0 +1,46 @@
+import { ErrorResponse } from "@/types/error";
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export const getMyClientsURL = () => `${BASE_URL}/clients`;
+export const getClientReceiptsURL = (clientId: string) =>
+  `${BASE_URL}/clients/${clientId}/receipts`;
+export const getMyAccountantsURL = () => `${BASE_URL}/clients/accountants`;
+
+export async function inviteAccountant(accountantEmail: string): Promise<void> {
+  const response = await fetch(`${BASE_URL}/clients/invite`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ accountantEmail }),
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const errorData: ErrorResponse = await response.json();
+    throw new Error(errorData.message);
+  }
+}
+
+export async function removeClient(clientId: string): Promise<void> {
+  const response = await fetch(`${BASE_URL}/clients/${clientId}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const errorData: ErrorResponse = await response.json();
+    throw new Error(errorData.message);
+  }
+}
+
+export async function removeAccountant(accountantId: string): Promise<void> {
+  const response = await fetch(`${BASE_URL}/clients/accountants/${accountantId}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const errorData: ErrorResponse = await response.json();
+    throw new Error(errorData.message);
+  }
+}
