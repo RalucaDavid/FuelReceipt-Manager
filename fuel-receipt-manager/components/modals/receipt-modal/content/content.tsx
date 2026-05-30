@@ -23,17 +23,22 @@ import {
 } from "@/types/receipts";
 import dayjs from "dayjs";
 import { createReceipt, updateReceipt } from "@/api/receipts";
+import { createReceiptForClient, updateReceiptForClient } from "@/api/clients";
 import classes from "./content.module.css";
 import { notifications } from "@mantine/notifications";
 import { IoScan } from "react-icons/io5";
 import { scanReceipt } from "@/api/orc";
 import useVehicles from "@/hooks/useVehicles";
+import useClientVehicles from "@/hooks/useClientVehicles";
+import useClients from "@/hooks/useClients";
+import useUser from "@/hooks/useUser";
 
 interface ContentProps {
   receipt?: ReceiptResponseDTO;
   onSuccess: () => void;
   onClose: () => void;
   defaultVehicleId?: string;
+  defaultClientId?: string;
 }
 
 function parseOcrDate(dateStr: string | null): Date | null {
@@ -72,18 +77,32 @@ function applyOcrResult(result: OcrResponseDTO) {
   };
 }
 
-const Content = ({ receipt, onSuccess, onClose, defaultVehicleId }: ContentProps) => {
+const Content = ({ receipt, onSuccess, onClose, defaultVehicleId, defaultClientId }: ContentProps) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [scanFile, setScanFile] = useState<File | null>(null);
   const [isScanning, setIsScanning] = useState(false);
-  const { vehicles } = useVehicles();
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(defaultClientId ?? null);
+
+  const { user } = useUser();
+  const isAccountant = user?.role === "ACCOUNTANT";
+
+  const { vehicles: ownVehicles } = useVehicles();
+  const { clients } = useClients();
+  const { vehicles: clientVehicles } = useClientVehicles(isAccountant ? selectedClientId : null);
+
+  const vehicles = isAccountant ? clientVehicles : ownVehicles;
 
   const vehicleOptions = vehicles?.map((v) => ({
     value: v.id,
     label: v.brand && v.model
       ? `${v.licensePlate} — ${v.brand} ${v.model}`
       : v.licensePlate,
+  })) ?? [];
+
+  const clientOptions = clients?.map((c) => ({
+    value: c.id,
+    label: `${c.firstName} ${c.lastName} (${c.email})`,
   })) ?? [];
 
   const form = useForm({
@@ -151,7 +170,11 @@ const Content = ({ receipt, onSuccess, onClose, defaultVehicleId }: ContentProps
 
     try {
       if (receipt) {
-        await updateReceipt(receipt.id, payload);
+        if (isAccountant && selectedClientId) {
+          await updateReceiptForClient(selectedClientId, receipt.id, payload);
+        } else {
+          await updateReceipt(receipt.id, payload);
+        }
         notifications.show({
           title: Dictionary.success,
           message: Dictionary.theReceiptHasBeenUpdated,
@@ -160,7 +183,11 @@ const Content = ({ receipt, onSuccess, onClose, defaultVehicleId }: ContentProps
           withBorder: true,
         });
       } else {
-        await createReceipt(payload);
+        if (isAccountant && selectedClientId) {
+          await createReceiptForClient(selectedClientId, payload);
+        } else {
+          await createReceipt(payload);
+        }
         notifications.show({
           title: Dictionary.success,
           message: Dictionary.theReceiptHasBeenAdded,
@@ -220,6 +247,22 @@ const Content = ({ receipt, onSuccess, onClose, defaultVehicleId }: ContentProps
           </>
         )}
 
+        {isAccountant && (
+          <Select
+            withAsterisk
+            label={Dictionary.selectClient}
+            placeholder={Dictionary.selectClient}
+            data={clientOptions}
+            searchable
+            value={selectedClientId}
+            onChange={(value) => {
+              setSelectedClientId(value);
+              form.setFieldValue("vehicleId", "");
+            }}
+            disabled={isLoading}
+          />
+        )}
+
         <Select
           withAsterisk
           label={Dictionary.selectVehicle}
@@ -228,7 +271,7 @@ const Content = ({ receipt, onSuccess, onClose, defaultVehicleId }: ContentProps
           searchable
           key={form.key("vehicleId")}
           {...form.getInputProps("vehicleId")}
-          disabled={isLoading}
+          disabled={isLoading || (isAccountant && !selectedClientId)}
         />
 
         <TextInput

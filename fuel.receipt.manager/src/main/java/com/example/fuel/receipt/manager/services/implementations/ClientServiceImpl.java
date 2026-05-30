@@ -2,9 +2,11 @@ package com.example.fuel.receipt.manager.services.implementations;
 
 import com.example.fuel.receipt.manager.dtos.ClientResponseDTO;
 import com.example.fuel.receipt.manager.dtos.InviteAccountantDTO;
+import com.example.fuel.receipt.manager.dtos.ReceiptRequestDTO;
 import com.example.fuel.receipt.manager.dtos.ReceiptResponseDTO;
 import com.example.fuel.receipt.manager.dtos.VehicleResponseDTO;
 import com.example.fuel.receipt.manager.entities.AccountantClient;
+import com.example.fuel.receipt.manager.entities.Receipt;
 import com.example.fuel.receipt.manager.entities.User;
 import com.example.fuel.receipt.manager.entities.Vehicle;
 import com.example.fuel.receipt.manager.enums.Role;
@@ -163,5 +165,74 @@ public class ClientServiceImpl implements ClientService {
         }
 
         accountantClientRepository.deleteByAccountantIdAndCompanyId(accountantId, company.getId());
+    }
+
+    @Override
+    @Transactional
+    public void createReceiptForClient(UUID clientId, ReceiptRequestDTO dto) {
+        User accountant = getCurrentUser();
+        if (accountant.getRole() != Role.ACCOUNTANT) {
+            throw new AccessForbiddenException("Only accountants can create receipts for clients");
+        }
+        if (!accountantClientRepository.existsByAccountantIdAndCompanyId(accountant.getId(), clientId)) {
+            throw new AccessForbiddenException("You are not linked to this company");
+        }
+
+        User client = userRepository.findById(clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("Client not found"));
+        Vehicle vehicle = vehicleRepository.findByIdAndUserId(dto.vehicleId(), clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found"));
+
+        receiptRepository.save(ReceiptMapper.fromDto(dto, client, vehicle));
+    }
+
+    @Override
+    @Transactional
+    public void updateReceiptForClient(UUID clientId, UUID receiptId, ReceiptRequestDTO dto) {
+        User accountant = getCurrentUser();
+        if (accountant.getRole() != Role.ACCOUNTANT) {
+            throw new AccessForbiddenException("Only accountants can update client receipts");
+        }
+        if (!accountantClientRepository.existsByAccountantIdAndCompanyId(accountant.getId(), clientId)) {
+            throw new AccessForbiddenException("You are not linked to this company");
+        }
+
+        Receipt receipt = receiptRepository.findById(receiptId)
+                .orElseThrow(() -> new ResourceNotFoundException("Receipt not found"));
+        if (!receipt.getUser().getId().equals(clientId)) {
+            throw new AccessForbiddenException("This receipt does not belong to this client");
+        }
+
+        Vehicle vehicle = vehicleRepository.findByIdAndUserId(dto.vehicleId(), clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found"));
+
+        receipt.setCif(dto.cif());
+        receipt.setReceiptNumber(dto.receiptNumber());
+        receipt.setFuelType(dto.fuelType());
+        receipt.setPaymentMethod(dto.paymentMethod());
+        receipt.setTotal(dto.total());
+        receipt.setDate(dto.date());
+        receipt.setVehicle(vehicle);
+        receiptRepository.save(receipt);
+    }
+
+    @Override
+    @Transactional
+    public void deleteReceiptForClient(UUID clientId, UUID receiptId) {
+        User accountant = getCurrentUser();
+        if (accountant.getRole() != Role.ACCOUNTANT) {
+            throw new AccessForbiddenException("Only accountants can delete client receipts");
+        }
+        if (!accountantClientRepository.existsByAccountantIdAndCompanyId(accountant.getId(), clientId)) {
+            throw new AccessForbiddenException("You are not linked to this company");
+        }
+
+        Receipt receipt = receiptRepository.findById(receiptId)
+                .orElseThrow(() -> new ResourceNotFoundException("Receipt not found"));
+        if (!receipt.getUser().getId().equals(clientId)) {
+            throw new AccessForbiddenException("This receipt does not belong to this client");
+        }
+
+        receiptRepository.deleteById(receiptId);
     }
 }

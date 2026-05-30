@@ -2,6 +2,7 @@ package com.example.fuel.receipt.manager.controllers;
 
 import com.example.fuel.receipt.manager.dtos.ClientResponseDTO;
 import com.example.fuel.receipt.manager.dtos.InviteAccountantDTO;
+import com.example.fuel.receipt.manager.dtos.ReceiptRequestDTO;
 import com.example.fuel.receipt.manager.dtos.ReceiptResponseDTO;
 import com.example.fuel.receipt.manager.dtos.VehicleResponseDTO;
 import com.example.fuel.receipt.manager.services.interfaces.ClientService;
@@ -58,6 +59,31 @@ public class ClientController {
     @DeleteMapping("/accountants/{accountantId}")
     public ResponseEntity<Void> removeAccountant(@PathVariable UUID accountantId) {
         clientService.removeAccountant(accountantId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{clientId}/receipts")
+    public ResponseEntity<Void> createReceiptForClient(
+            @PathVariable UUID clientId,
+            @Valid @RequestBody ReceiptRequestDTO dto) {
+        clientService.createReceiptForClient(clientId, dto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{clientId}/receipts/{receiptId}")
+    public ResponseEntity<Void> updateReceiptForClient(
+            @PathVariable UUID clientId,
+            @PathVariable UUID receiptId,
+            @Valid @RequestBody ReceiptRequestDTO dto) {
+        clientService.updateReceiptForClient(clientId, receiptId, dto);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{clientId}/receipts/{receiptId}")
+    public ResponseEntity<Void> deleteReceiptForClient(
+            @PathVariable UUID clientId,
+            @PathVariable UUID receiptId) {
+        clientService.deleteReceiptForClient(clientId, receiptId);
         return ResponseEntity.noContent().build();
     }
 }

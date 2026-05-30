@@ -14,8 +14,28 @@ import { notifications } from "@mantine/notifications";
 import ReceiptsByMonth from "../receipts-by-month";
 import ReceiptsByMonthSkeleton from "../receipts-by-month-skeleton";
 
-const ReceiptsContent = () => {
-  const { allReceipts, isLoading, mutate } = useReceipts();
+interface ReceiptsContentProps {
+  receipts?: ReceiptResponseDTO[];
+  isLoading?: boolean;
+  mutate?: () => void;
+  defaultVehicleId?: string;
+}
+
+const ReceiptsContent = ({
+  receipts: externalReceipts,
+  isLoading: externalLoading,
+  mutate: externalMutate,
+  defaultVehicleId,
+}: ReceiptsContentProps = {}) => {
+  const {
+    allReceipts: hookReceipts,
+    isLoading: hookLoading,
+    mutate: hookMutate,
+  } = useReceipts();
+
+  const allReceipts = externalReceipts ?? hookReceipts;
+  const isLoading = externalLoading ?? hookLoading;
+  const mutate = externalMutate ?? hookMutate;
   const [selectedReceipt, setSelectedReceipt] = useState<
     ReceiptResponseDTO | undefined
   >(undefined);
@@ -83,6 +103,7 @@ const ReceiptsContent = () => {
         opened={opened}
         onClose={close}
         onSuccess={() => mutate()}
+        defaultVehicleId={defaultVehicleId}
       />
     </>
   );

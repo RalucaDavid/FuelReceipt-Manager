@@ -65,6 +65,8 @@ export const Dictionary = {
   noVehiclesYet: "No vehicles added yet.",
   selectVehicle: "Select Vehicle",
   vehicleRequired: "Vehicle is required.",
+  selectClient: "Select Client",
+  clientRequired: "Client is required.",
   myAccountants: "My Accountants",
   accountants: "Accountants",
   noAccountantsYet:
