@@ -5,6 +5,7 @@ import {
   Group,
   NumberInput,
   SegmentedControl,
+  Select,
   Stack,
   Text,
   TextInput,
@@ -26,6 +27,7 @@ import classes from "./content.module.css";
 import { notifications } from "@mantine/notifications";
 import { IoScan } from "react-icons/io5";
 import { scanReceipt } from "@/api/orc";
+import useVehicles from "@/hooks/useVehicles";
 
 interface ContentProps {
   receipt?: ReceiptResponseDTO;
@@ -74,6 +76,14 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [scanFile, setScanFile] = useState<File | null>(null);
   const [isScanning, setIsScanning] = useState(false);
+  const { vehicles } = useVehicles();
+
+  const vehicleOptions = vehicles?.map((v) => ({
+    value: v.id,
+    label: v.brand && v.model
+      ? `${v.licensePlate} — ${v.brand} ${v.model}`
+      : v.licensePlate,
+  })) ?? [];
 
   const form = useForm({
     mode: "uncontrolled",
@@ -84,6 +94,7 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
       fuelType: receipt ? receipt.fuelType : "DIESEL",
       paymentMethod: receipt ? receipt.paymentMethod : "CARD",
       total: receipt ? receipt.total : 0,
+      vehicleId: receipt?.vehicleId ?? "",
     },
 
     validate: {
@@ -96,6 +107,7 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
         return null;
       },
       total: (value) => (value === 0 ? Dictionary.totalRequired : null),
+      vehicleId: (value) => (value ? null : Dictionary.vehicleRequired),
     },
   });
 
@@ -133,6 +145,7 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
     const payload: ReceiptRequestDTO = {
       ...values,
       date: dayjs(values.date).format("YYYY-MM-DDTHH:mm:ss"),
+      vehicleId: values.vehicleId,
     };
 
     try {
@@ -205,6 +218,17 @@ const Content = ({ receipt, onSuccess, onClose }: ContentProps) => {
             <Divider label={Dictionary.orFillManually} labelPosition="center" />
           </>
         )}
+
+        <Select
+          withAsterisk
+          label={Dictionary.selectVehicle}
+          placeholder={Dictionary.selectVehicle}
+          data={vehicleOptions}
+          searchable
+          key={form.key("vehicleId")}
+          {...form.getInputProps("vehicleId")}
+          disabled={isLoading}
+        />
 
         <TextInput
           withAsterisk

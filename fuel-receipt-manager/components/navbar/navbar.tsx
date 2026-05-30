@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 import { useDisclosure } from "@mantine/hooks";
 import { BsBoxFill } from "react-icons/bs";
 import { IoReceiptSharp } from "react-icons/io5";
-import { MdDashboard, MdPeople, MdPersonAdd, MdManageAccounts } from "react-icons/md";
+import { MdDashboard, MdPeople, MdPersonAdd, MdManageAccounts, MdDirectionsCar } from "react-icons/md";
 import { Dictionary } from "@/dictionaries";
 import UserAvatar from "../user-avatar";
 import useUser from "@/hooks/useUser";
@@ -29,11 +29,10 @@ const Navbar = ({ children }: NavbarProps) => {
 
   const navData = [
     { icon: MdDashboard, label: Dictionary.dashboard, href: "/dashboard" },
-    {
-      icon: IoReceiptSharp,
-      label: Dictionary.receipts,
-      href: "/receipts",
-    },
+    { icon: IoReceiptSharp, label: Dictionary.receipts, href: "/receipts" },
+    ...(user?.role === "COMPANY"
+      ? [{ icon: MdDirectionsCar, label: Dictionary.vehicles, href: "/vehicles" }]
+      : []),
     ...(user?.role === "ACCOUNTANT"
       ? [{ icon: MdPeople, label: Dictionary.clients, href: "/clients" }]
       : []),

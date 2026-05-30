@@ -14,5 +14,7 @@ public record ReceiptResponseDTO(
         FuelType fuelType,
         PaymentMethod paymentMethod,
         BigDecimal total,
-        LocalDateTime date
+        LocalDateTime date,
+        UUID vehicleId,
+        String vehicleLicensePlate
 ) {}

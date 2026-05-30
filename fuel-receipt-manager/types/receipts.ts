@@ -8,10 +8,12 @@ export interface ReceiptRequestDTO {
   paymentMethod: PaymentMethod;
   total: number;
   date: string;
+  vehicleId: string;
 }
 
 export interface ReceiptResponseDTO extends ReceiptRequestDTO {
   id: string;
+  vehicleLicensePlate: string | null;
 }
 
 export interface OcrResponseDTO {

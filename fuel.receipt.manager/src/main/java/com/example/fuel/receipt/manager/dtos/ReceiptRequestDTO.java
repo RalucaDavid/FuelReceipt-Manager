@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record ReceiptRequestDTO(
         @NotBlank String cif,
@@ -15,5 +16,6 @@ public record ReceiptRequestDTO(
         @NotNull FuelType fuelType,
         @NotNull PaymentMethod paymentMethod,
         @NotNull @Positive BigDecimal total,
-        @NotNull LocalDateTime date
+        @NotNull LocalDateTime date,
+        @NotNull UUID vehicleId
 ) {}

@@ -4,11 +4,13 @@ import com.example.fuel.receipt.manager.dtos.ReceiptRequestDTO;
 import com.example.fuel.receipt.manager.dtos.ReceiptResponseDTO;
 import com.example.fuel.receipt.manager.entities.Receipt;
 import com.example.fuel.receipt.manager.entities.User;
+import com.example.fuel.receipt.manager.entities.Vehicle;
 import com.example.fuel.receipt.manager.exceptions.AccessForbiddenException;
 import com.example.fuel.receipt.manager.exceptions.ResourceNotFoundException;
 import com.example.fuel.receipt.manager.mappers.ReceiptMapper;
 import com.example.fuel.receipt.manager.repositories.ReceiptRepository;
 import com.example.fuel.receipt.manager.repositories.UserRepository;
+import com.example.fuel.receipt.manager.repositories.VehicleRepository;
 import com.example.fuel.receipt.manager.services.interfaces.ReceiptService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +26,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     private final ReceiptRepository receiptRepository;
     private final UserRepository userRepository;
+    private final VehicleRepository vehicleRepository;
 
     private User getCurrentUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -31,10 +34,17 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
+    private Vehicle getVehicleForCurrentUser(UUID vehicleId) {
+        User user = getCurrentUser();
+        return vehicleRepository.findByIdAndUserId(vehicleId, user.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found"));
+    }
+
     @Override
     @Transactional
     public void createReceipt(ReceiptRequestDTO dto) {
-        Receipt receipt = ReceiptMapper.fromDto(dto, getCurrentUser());
+        Vehicle vehicle = getVehicleForCurrentUser(dto.vehicleId());
+        Receipt receipt = ReceiptMapper.fromDto(dto, getCurrentUser(), vehicle);
         receiptRepository.save(receipt);
     }
 
@@ -92,6 +102,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         receipt.setPaymentMethod(dto.paymentMethod());
         receipt.setTotal(dto.total());
         receipt.setDate(dto.date());
+        receipt.setVehicle(getVehicleForCurrentUser(dto.vehicleId()));
 
         receiptRepository.save(receipt);
     }

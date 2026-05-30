@@ -19,7 +19,7 @@ function getRoleFromToken(token: string): Role | null {
 }
 
 const ACCOUNTANT_ONLY = ["/clients"];
-const COMPANY_ONLY = ["/accountants"];
+const COMPANY_ONLY = ["/accountants", "/vehicles"];
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("auth-token")?.value;

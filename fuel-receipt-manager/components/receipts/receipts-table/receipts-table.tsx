@@ -44,6 +44,11 @@ const ReceiptsTable = ({
   const rows = receipts?.map((receipt) => (
     <Table.Tr key={receipt.id}>
       <Table.Td>
+        <Text size="sm" fw={500} c="blue">
+          {receipt.vehicleLicensePlate ?? "—"}
+        </Text>
+      </Table.Td>
+      <Table.Td>
         <Text size="sm">{receipt.cif}</Text>
       </Table.Td>
 
@@ -109,6 +114,7 @@ const ReceiptsTable = ({
       <Table verticalSpacing="sm" highlightOnHover>
         <Table.Thead>
           <Table.Tr>
+            <Table.Th>{Dictionary.vehicles}</Table.Th>
             <Table.Th>{Dictionary.cif}</Table.Th>
             <Table.Th>{Dictionary.date}</Table.Th>
             <Table.Th>{Dictionary.receiptNumber}</Table.Th>
