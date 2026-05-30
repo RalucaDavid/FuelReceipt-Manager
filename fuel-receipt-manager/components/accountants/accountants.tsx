@@ -154,7 +154,7 @@ const AccountantsPage = () => {
         </div>
       )}
 
-      <InviteAccountantModal opened={inviteOpened} onClose={closeInvite} />
+      <InviteAccountantModal opened={inviteOpened} onClose={closeInvite} onSuccess={mutate} />
 
       <Modal
         opened={opened}

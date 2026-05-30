@@ -10,11 +10,13 @@ import { notifications } from "@mantine/notifications";
 interface InviteAccountantModalProps {
   opened: boolean;
   onClose: () => void;
+  onSuccess?: () => void;
 }
 
 const InviteAccountantModal = ({
   opened,
   onClose,
+  onSuccess,
 }: InviteAccountantModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [pendingEmail, setPendingEmail] = useState<string | null>(null);
@@ -46,6 +48,7 @@ const InviteAccountantModal = ({
         message: Dictionary.inviteSent,
         color: "green",
       });
+      onSuccess?.();
       handleClose();
     } catch (err: unknown) {
       notifications.show({
