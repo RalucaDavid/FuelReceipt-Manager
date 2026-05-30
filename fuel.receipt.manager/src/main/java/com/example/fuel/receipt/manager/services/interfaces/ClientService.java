@@ -17,6 +17,7 @@ public interface ClientService {
     void removeClient(UUID clientId);
     List<ClientResponseDTO> getMyAccountants();
     void removeAccountant(UUID accountantId);
+    List<ReceiptResponseDTO> getAllClientReceipts(UUID clientId);
     void createReceiptForClient(UUID clientId, ReceiptRequestDTO dto);
     void updateReceiptForClient(UUID clientId, UUID receiptId, ReceiptRequestDTO dto);
     void deleteReceiptForClient(UUID clientId, UUID receiptId);

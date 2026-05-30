@@ -168,6 +168,22 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<ReceiptResponseDTO> getAllClientReceipts(UUID clientId) {
+        User accountant = getCurrentUser();
+        if (accountant.getRole() != Role.ACCOUNTANT) {
+            throw new AccessForbiddenException("Only accountants can view client receipts");
+        }
+        if (!accountantClientRepository.existsByAccountantIdAndCompanyId(accountant.getId(), clientId)) {
+            throw new AccessForbiddenException("You are not linked to this company");
+        }
+        return receiptRepository.findByUserIdOrderByDateDesc(clientId)
+                .stream()
+                .map(ReceiptMapper::toDto)
+                .toList();
+    }
+
+    @Override
     @Transactional
     public void createReceiptForClient(UUID clientId, ReceiptRequestDTO dto) {
         User accountant = getCurrentUser();

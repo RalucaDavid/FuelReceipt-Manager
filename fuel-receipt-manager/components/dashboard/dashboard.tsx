@@ -6,17 +6,37 @@ import ChartCard from "./chart-card/chart-card";
 import FuelTypeChart from "./fuel-type-chart/fuel-type-chart";
 import ReceiptsChart from "./receipts-chart/receipts-chart";
 import RecentReceipts from "./recent-receipts/recent-receipts";
+import ClientsOverview from "./clients-overview/clients-overview";
 import useReceipts from "@/hooks/useReceipts";
+import useAccountantReceipts from "@/hooks/useAccountantReceipts";
+import useUser from "@/hooks/useUser";
 import { Dictionary } from "@/dictionaries";
 
 const DashboardPage = () => {
-  const { allReceipts, isLoading } = useReceipts();
-  const receipts = allReceipts ?? [];
+  const { user } = useUser();
+  const isAccountant = user?.role === "ACCOUNTANT";
+
+  const { allReceipts, isLoading: companyLoading } = useReceipts();
+  const {
+    receipts: accountantReceipts,
+    clients,
+    isLoading: accountantLoading,
+  } = useAccountantReceipts();
+
+  const receipts = isAccountant
+    ? (accountantReceipts ?? [])
+    : (allReceipts ?? []);
+
+  const isLoading = isAccountant ? accountantLoading : companyLoading;
 
   return (
     <div className={classes.dashboardPage}>
       <HelloMessage />
-      <StatsCards receipts={receipts} isLoading={isLoading} />
+      <StatsCards
+        receipts={receipts}
+        isLoading={isLoading}
+        clientCount={isAccountant ? (clients?.length ?? 0) : undefined}
+      />
       {isLoading ? (
         <Center style={{ paddingTop: 32 }}>
           <Loader />
@@ -31,6 +51,8 @@ const DashboardPage = () => {
               <FuelTypeChart receipts={receipts} />
             </ChartCard>
           </div>
+
+          {isAccountant && <ClientsOverview clients={clients ?? []} />}
 
           <RecentReceipts receipts={receipts} />
         </>

@@ -9,7 +9,7 @@ import {
   Skeleton,
 } from "@mantine/core";
 import { IoReceiptSharp } from "react-icons/io5";
-import { MdAttachMoney, MdCalendarMonth, MdTrendingUp } from "react-icons/md";
+import { MdAttachMoney, MdCalendarMonth, MdTrendingUp, MdPeople } from "react-icons/md";
 import { ReceiptResponseDTO } from "@/types/receipts";
 import { Dictionary } from "@/dictionaries";
 import classes from "./stats-cards.module.css";
@@ -17,9 +17,10 @@ import classes from "./stats-cards.module.css";
 interface StatsCardsProps {
   receipts: ReceiptResponseDTO[];
   isLoading: boolean;
+  clientCount?: number;
 }
 
-const StatsCards = ({ receipts, isLoading }: StatsCardsProps) => {
+const StatsCards = ({ receipts, isLoading, clientCount }: StatsCardsProps) => {
   const stats = useMemo(() => {
     if (!receipts || receipts.length === 0) {
       return {
@@ -47,6 +48,9 @@ const StatsCards = ({ receipts, isLoading }: StatsCardsProps) => {
   }, [receipts]);
 
   const cards = [
+    ...(clientCount !== undefined
+      ? [{ label: Dictionary.clients, value: String(clientCount), icon: MdPeople, color: "teal" }]
+      : []),
     {
       label: Dictionary.totalReceipts,
       value: String(stats.totalReceipts),
@@ -65,12 +69,9 @@ const StatsCards = ({ receipts, isLoading }: StatsCardsProps) => {
       icon: MdCalendarMonth,
       color: "orange",
     },
-    {
-      label: Dictionary.avgReceipt,
-      value: `${stats.avgReceipt} RON`,
-      icon: MdTrendingUp,
-      color: "violet",
-    },
+    ...(clientCount === undefined
+      ? [{ label: Dictionary.avgReceipt, value: `${stats.avgReceipt} RON`, icon: MdTrendingUp, color: "violet" }]
+      : []),
   ];
 
   if (isLoading) {

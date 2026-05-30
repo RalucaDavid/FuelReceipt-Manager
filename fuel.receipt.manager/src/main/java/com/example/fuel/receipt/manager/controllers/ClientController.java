@@ -62,6 +62,11 @@ public class ClientController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{clientId}/receipts")
+    public ResponseEntity<List<ReceiptResponseDTO>> getAllClientReceipts(@PathVariable UUID clientId) {
+        return ResponseEntity.ok(clientService.getAllClientReceipts(clientId));
+    }
+
     @PostMapping("/{clientId}/receipts")
     public ResponseEntity<Void> createReceiptForClient(
             @PathVariable UUID clientId,
